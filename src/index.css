@@ -2,104 +2,105 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Outfit:wght@400;500;600;700&display=swap');
 
-/* Ear Training Arcade Design System
-   Aesthetic: Clean arcade/rhythm game - intentional, focused, not chaotic
-   Theme: Dark with warm amber/gold accents for musical warmth
+/* Ear Training Arcade - Retro Arcade Design System
+   Aesthetic: Classic arcade cabinets, warm retro feel
+   NOT: Neon glassmorphism, crypto dashboards, sci-fi
 */
 
 @layer base {
   :root {
-    /* Dark arcade theme */
-    --background: 240 10% 6%;
-    --foreground: 45 10% 92%;
+    /* Warm retro arcade palette */
+    --background: 30 15% 8%;
+    --foreground: 45 30% 90%;
 
-    --card: 240 10% 9%;
-    --card-foreground: 45 10% 92%;
+    --card: 30 12% 12%;
+    --card-foreground: 45 30% 90%;
 
-    --popover: 240 10% 9%;
-    --popover-foreground: 45 10% 92%;
+    --popover: 30 12% 12%;
+    --popover-foreground: 45 30% 90%;
 
-    /* Amber/Gold primary - warm musical feel */
-    --primary: 38 92% 50%;
-    --primary-foreground: 240 10% 6%;
+    /* Warm orange/amber primary */
+    --primary: 25 95% 55%;
+    --primary-foreground: 30 15% 8%;
 
-    /* Muted amber secondary */
-    --secondary: 38 30% 18%;
-    --secondary-foreground: 45 10% 92%;
+    /* Muted warm secondary */
+    --secondary: 30 20% 20%;
+    --secondary-foreground: 45 30% 90%;
 
-    --muted: 240 8% 15%;
-    --muted-foreground: 240 5% 55%;
+    --muted: 30 10% 18%;
+    --muted-foreground: 30 15% 50%;
 
-    --accent: 38 60% 25%;
-    --accent-foreground: 45 10% 92%;
+    --accent: 25 70% 35%;
+    --accent-foreground: 45 30% 90%;
 
     /* Feedback colors */
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 45 10% 92%;
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 45 30% 95%;
 
-    --success: 142 71% 45%;
-    --success-foreground: 240 10% 6%;
+    --success: 145 60% 40%;
+    --success-foreground: 30 15% 8%;
 
-    --border: 240 8% 18%;
-    --input: 240 8% 18%;
-    --ring: 38 92% 50%;
+    --border: 30 15% 22%;
+    --input: 30 15% 22%;
+    --ring: 25 95% 55%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Game-specific tokens */
-    --game-surface: 240 10% 11%;
-    --game-surface-hover: 240 10% 14%;
-    --game-border: 240 8% 20%;
-    --game-glow: 38 92% 50%;
+    /* Retro-specific tokens */
+    --retro-bg: 30 15% 8%;
+    --retro-surface: 30 12% 14%;
+    --retro-surface-raised: 30 12% 18%;
+    --retro-border: 30 15% 25%;
+    --retro-border-dark: 30 15% 10%;
+    --retro-shadow: 30 20% 6%;
+    
+    /* Retro accent colors */
+    --retro-primary: 25 95% 55%;
+    --retro-accent: 45 90% 65%;
+    --retro-cream: 45 50% 85%;
+    --retro-grid: 30 20% 40%;
 
-    /* Stage colors */
-    --stage-listen: 217 91% 60%;
-    --stage-guess: 38 92% 50%;
-    --stage-result: 142 71% 45%;
+    /* Stage colors - warm palette */
+    --stage-listen: 200 70% 55%;
+    --stage-guess: 25 95% 55%;
+    --stage-result: 145 60% 45%;
 
-    /* Sidebar defaults (keeping for shadcn compatibility) */
-    --sidebar-background: 240 10% 8%;
-    --sidebar-foreground: 45 10% 92%;
-    --sidebar-primary: 38 92% 50%;
-    --sidebar-primary-foreground: 240 10% 6%;
-    --sidebar-accent: 38 30% 18%;
-    --sidebar-accent-foreground: 45 10% 92%;
-    --sidebar-border: 240 8% 18%;
-    --sidebar-ring: 38 92% 50%;
+    /* Sidebar defaults */
+    --sidebar-background: 30 12% 10%;
+    --sidebar-foreground: 45 30% 90%;
+    --sidebar-primary: 25 95% 55%;
+    --sidebar-primary-foreground: 30 15% 8%;
+    --sidebar-accent: 30 20% 20%;
+    --sidebar-accent-foreground: 45 30% 90%;
+    --sidebar-border: 30 15% 22%;
+    --sidebar-ring: 25 95% 55%;
   }
 
   .dark {
-    /* Dark mode is the default, same values */
-    --background: 240 10% 6%;
-    --foreground: 45 10% 92%;
-    --card: 240 10% 9%;
-    --card-foreground: 45 10% 92%;
-    --popover: 240 10% 9%;
-    --popover-foreground: 45 10% 92%;
-    --primary: 38 92% 50%;
-    --primary-foreground: 240 10% 6%;
-    --secondary: 38 30% 18%;
-    --secondary-foreground: 45 10% 92%;
-    --muted: 240 8% 15%;
-    --muted-foreground: 240 5% 55%;
-    --accent: 38 60% 25%;
-    --accent-foreground: 45 10% 92%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 45 10% 92%;
-    --success: 142 71% 45%;
-    --success-foreground: 240 10% 6%;
-    --border: 240 8% 18%;
-    --input: 240 8% 18%;
-    --ring: 38 92% 50%;
-    --game-surface: 240 10% 11%;
-    --game-surface-hover: 240 10% 14%;
-    --game-border: 240 8% 20%;
-    --game-glow: 38 92% 50%;
-    --stage-listen: 217 91% 60%;
-    --stage-guess: 38 92% 50%;
-    --stage-result: 142 71% 45%;
+    /* Same as root - dark is default */
+    --background: 30 15% 8%;
+    --foreground: 45 30% 90%;
+    --card: 30 12% 12%;
+    --card-foreground: 45 30% 90%;
+    --popover: 30 12% 12%;
+    --popover-foreground: 45 30% 90%;
+    --primary: 25 95% 55%;
+    --primary-foreground: 30 15% 8%;
+    --secondary: 30 20% 20%;
+    --secondary-foreground: 45 30% 90%;
+    --muted: 30 10% 18%;
+    --muted-foreground: 30 15% 50%;
+    --accent: 25 70% 35%;
+    --accent-foreground: 45 30% 90%;
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 45 30% 95%;
+    --success: 145 60% 40%;
+    --success-foreground: 30 15% 8%;
+    --border: 30 15% 22%;
+    --input: 30 15% 22%;
+    --ring: 25 95% 55%;
   }
 }
 
@@ -109,90 +110,213 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Outfit', system-ui, sans-serif;
   }
 
   /* Typography */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-semibold tracking-tight;
+    @apply font-bold tracking-tight;
   }
 }
 
 @layer components {
-  /* Game panel styling */
-  .game-panel {
-    @apply bg-game-surface border border-game-border rounded-2xl;
-  }
-
-  /* Note button base */
-  .note-button {
-    @apply relative overflow-hidden transition-all duration-200;
-    @apply bg-secondary/50 border-2 border-transparent;
-    @apply hover:bg-secondary hover:border-primary/30;
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary;
-  }
-
-  .note-button-selected {
-    @apply bg-primary/20 border-primary text-primary;
-    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
-  }
-
-  /* Stage indicator */
-  .stage-dot {
-    @apply w-3 h-3 rounded-full transition-all duration-300;
-  }
-
-  .stage-dot-active {
-    box-shadow: 0 0 12px currentColor;
-  }
-
-  /* Play button glow effect */
-  .play-button-glow {
+  /* Retro panel - chunky, solid, tactile */
+  .retro-panel {
+    @apply relative;
+    background: hsl(var(--retro-surface));
+    border: 4px solid hsl(var(--retro-border));
+    border-radius: 12px;
     box-shadow: 
-      0 0 20px hsl(var(--primary) / 0.4),
-      0 0 40px hsl(var(--primary) / 0.2),
-      inset 0 1px 0 hsl(var(--primary-foreground) / 0.1);
+      6px 6px 0 hsl(var(--retro-shadow)),
+      inset 0 2px 0 hsl(var(--retro-surface-raised));
   }
 
-  /* Feedback animations */
-  .feedback-correct {
-    animation: correctPulse 0.6s ease-out;
+  .retro-panel-inset {
+    background: hsl(var(--retro-bg));
+    border: 3px solid hsl(var(--retro-border-dark));
+    border-radius: 8px;
+    box-shadow: inset 2px 2px 4px hsl(var(--retro-shadow));
   }
 
-  .feedback-incorrect {
-    animation: incorrectShake 0.4s ease-out;
+  /* Retro button - chunky, pressable */
+  .retro-button {
+    @apply relative font-bold uppercase tracking-wider;
+    @apply transition-all duration-100;
+    background: hsl(var(--retro-surface-raised));
+    border: 4px solid hsl(var(--retro-border));
+    border-radius: 8px;
+    box-shadow: 
+      4px 4px 0 hsl(var(--retro-shadow)),
+      inset 0 2px 0 hsl(30 12% 25%);
   }
 
-  @keyframes correctPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+  .retro-button:hover:not(:disabled) {
+    background: hsl(var(--retro-surface));
+    transform: translate(1px, 1px);
+    box-shadow: 
+      3px 3px 0 hsl(var(--retro-shadow)),
+      inset 0 2px 0 hsl(30 12% 22%);
   }
 
-  @keyframes incorrectShake {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-8px); }
-    40% { transform: translateX(8px); }
-    60% { transform: translateX(-4px); }
-    80% { transform: translateX(4px); }
+  .retro-button:active:not(:disabled) {
+    transform: translate(4px, 4px);
+    box-shadow: 
+      0 0 0 hsl(var(--retro-shadow)),
+      inset 0 2px 4px hsl(var(--retro-shadow));
   }
 
-  /* Subtle background pattern */
-  .arcade-bg {
-    background-image: 
-      radial-gradient(circle at 50% 0%, hsl(var(--primary) / 0.08) 0%, transparent 50%),
-      linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(240 10% 4%) 100%);
+  .retro-button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Primary action button */
+  .retro-button-primary {
+    background: hsl(var(--retro-primary));
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(25 80% 35%);
+    box-shadow: 
+      4px 4px 0 hsl(25 70% 25%),
+      inset 0 2px 0 hsl(25 95% 65%);
+  }
+
+  .retro-button-primary:hover:not(:disabled) {
+    background: hsl(25 90% 50%);
+    box-shadow: 
+      3px 3px 0 hsl(25 70% 25%),
+      inset 0 2px 0 hsl(25 95% 60%);
+  }
+
+  .retro-button-primary:active:not(:disabled) {
+    background: hsl(25 85% 45%);
+    box-shadow: 
+      0 0 0 hsl(25 70% 25%),
+      inset 0 2px 4px hsl(25 70% 30%);
+  }
+
+  /* Success button */
+  .retro-button-success {
+    background: hsl(var(--success));
+    color: hsl(var(--success-foreground));
+    border-color: hsl(145 50% 28%);
+    box-shadow: 
+      4px 4px 0 hsl(145 50% 20%),
+      inset 0 2px 0 hsl(145 60% 50%);
+  }
+
+  .retro-button-success:hover:not(:disabled) {
+    background: hsl(145 55% 38%);
+  }
+
+  /* Note selector button */
+  .retro-note-button {
+    @apply relative font-mono font-bold text-lg;
+    background: hsl(var(--retro-surface-raised));
+    border: 3px solid hsl(var(--retro-border));
+    border-radius: 6px;
+    box-shadow: 
+      3px 3px 0 hsl(var(--retro-shadow)),
+      inset 0 1px 0 hsl(30 12% 25%);
+    transition: all 0.1s ease;
+  }
+
+  .retro-note-button:hover:not(:disabled) {
+    background: hsl(var(--retro-surface));
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 hsl(var(--retro-shadow));
+  }
+
+  .retro-note-button:active:not(:disabled) {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 hsl(var(--retro-shadow));
+  }
+
+  .retro-note-button-selected {
+    background: hsl(var(--retro-primary));
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(25 80% 40%);
+    box-shadow: 
+      3px 3px 0 hsl(25 70% 25%),
+      inset 0 1px 0 hsl(25 95% 65%);
+  }
+
+  .retro-note-button-selected:hover:not(:disabled) {
+    background: hsl(25 90% 52%);
+  }
+
+  /* Retro text styles */
+  .retro-title {
+    font-family: 'Press Start 2P', monospace;
+    text-shadow: 
+      3px 3px 0 hsl(var(--retro-shadow)),
+      -1px -1px 0 hsl(var(--retro-border));
+  }
+
+  .retro-label {
+    font-family: 'VT323', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* Stage indicator retro style */
+  .retro-stage {
+    @apply flex items-center justify-center;
+    background: hsl(var(--retro-surface));
+    border: 3px solid hsl(var(--retro-border));
+    border-radius: 8px;
+    box-shadow: inset 2px 2px 4px hsl(var(--retro-shadow));
+  }
+
+  .retro-stage-active {
+    background: hsl(var(--stage-guess) / 0.2);
+    border-color: hsl(var(--stage-guess));
+    box-shadow: 
+      0 0 12px hsl(var(--stage-guess) / 0.4),
+      inset 0 0 8px hsl(var(--stage-guess) / 0.2);
+  }
+
+  /* Feedback styles */
+  .retro-feedback-correct {
+    background: hsl(var(--success) / 0.15);
+    border: 4px solid hsl(var(--success));
+    box-shadow: 
+      0 0 20px hsl(var(--success) / 0.3),
+      inset 0 0 10px hsl(var(--success) / 0.1);
+  }
+
+  .retro-feedback-incorrect {
+    background: hsl(var(--destructive) / 0.15);
+    border: 4px solid hsl(var(--destructive));
+    box-shadow: 
+      0 0 20px hsl(var(--destructive) / 0.3),
+      inset 0 0 10px hsl(var(--destructive) / 0.1);
+  }
+
+  /* Animations */
+  @keyframes retro-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  @keyframes retro-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .retro-pulse {
+    animation: retro-pulse 1.5s ease-in-out infinite;
+  }
+
+  .retro-bounce {
+    animation: retro-bounce 0.6s ease-in-out;
   }
 }
 
 @layer utilities {
-  /* Text glow for emphasis */
-  .text-glow {
-    text-shadow: 0 0 20px currentColor;
+  .font-pixel {
+    font-family: 'Press Start 2P', monospace;
   }
 
-  /* Subtle press effect */
-  .press-effect {
-    @apply active:scale-95 transition-transform duration-100;
+  .font-retro {
+    font-family: 'VT323', monospace;
   }
 }

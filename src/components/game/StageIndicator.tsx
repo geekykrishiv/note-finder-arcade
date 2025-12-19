@@ -7,43 +7,55 @@ interface StageIndicatorProps {
 }
 
 const stages: { id: GameStage; label: string; icon: typeof Ear }[] = [
-  { id: 'listen', label: 'Listen', icon: Ear },
-  { id: 'guess', label: 'Guess', icon: HelpCircle },
-  { id: 'result', label: 'Result', icon: CheckCircle },
+  { id: 'listen', label: 'LISTEN', icon: Ear },
+  { id: 'guess', label: 'GUESS', icon: HelpCircle },
+  { id: 'result', label: 'RESULT', icon: CheckCircle },
 ];
 
 export function StageIndicator({ currentStage }: StageIndicatorProps) {
   const currentIndex = stages.findIndex(s => s.id === currentStage);
 
   return (
-    <div className="flex items-center justify-center gap-2 sm:gap-4">
+    <div className="flex items-center justify-center gap-3 sm:gap-6">
       {stages.map((stage, index) => {
         const Icon = stage.icon;
         const isActive = stage.id === currentStage;
         const isPast = index < currentIndex;
         
         return (
-          <div key={stage.id} className="flex items-center gap-2 sm:gap-4">
-            <div className="flex flex-col items-center gap-1.5">
+          <div key={stage.id} className="flex items-center gap-3 sm:gap-6">
+            <div className="flex flex-col items-center gap-2">
               <div
                 className={cn(
-                  'flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-300',
-                  isActive && stage.id === 'listen' && 'bg-stage-listen/20 text-stage-listen',
-                  isActive && stage.id === 'guess' && 'bg-stage-guess/20 text-stage-guess',
-                  isActive && stage.id === 'result' && 'bg-stage-result/20 text-stage-result',
-                  isPast && 'bg-muted text-muted-foreground',
-                  !isActive && !isPast && 'bg-muted/50 text-muted-foreground/50',
-                  isActive && 'ring-2 ring-offset-2 ring-offset-background',
-                  isActive && stage.id === 'listen' && 'ring-stage-listen',
-                  isActive && stage.id === 'guess' && 'ring-stage-guess',
-                  isActive && stage.id === 'result' && 'ring-stage-result',
+                  'retro-stage w-12 h-12 sm:w-14 sm:h-14 transition-all duration-200',
+                  isActive && stage.id === 'listen' && 'retro-stage-active !border-stage-listen',
+                  isActive && stage.id === 'guess' && 'retro-stage-active',
+                  isActive && stage.id === 'result' && 'retro-stage-active !border-stage-result',
+                  isPast && 'opacity-60',
+                  !isActive && !isPast && 'opacity-40',
                 )}
+                style={isActive ? {
+                  boxShadow: stage.id === 'listen' 
+                    ? '0 0 12px hsl(var(--stage-listen) / 0.4)'
+                    : stage.id === 'result'
+                    ? '0 0 12px hsl(var(--stage-result) / 0.4)'
+                    : '0 0 12px hsl(var(--stage-guess) / 0.4)'
+                } : undefined}
               >
-                <Icon className={cn('w-5 h-5 sm:w-6 sm:h-6', isActive && 'animate-pulse-glow')} />
+                <Icon 
+                  className={cn(
+                    'w-5 h-5 sm:w-6 sm:h-6',
+                    isActive && stage.id === 'listen' && 'text-stage-listen',
+                    isActive && stage.id === 'guess' && 'text-stage-guess',
+                    isActive && stage.id === 'result' && 'text-stage-result',
+                    !isActive && 'text-muted-foreground',
+                    isActive && 'retro-pulse'
+                  )} 
+                />
               </div>
               <span
                 className={cn(
-                  'text-xs font-medium transition-colors duration-300',
+                  'font-retro text-sm sm:text-base tracking-wider transition-colors duration-200',
                   isActive && 'text-foreground',
                   !isActive && 'text-muted-foreground',
                 )}
@@ -55,7 +67,7 @@ export function StageIndicator({ currentStage }: StageIndicatorProps) {
             {index < stages.length - 1 && (
               <div
                 className={cn(
-                  'w-8 sm:w-12 h-0.5 rounded-full transition-colors duration-300 -mt-5',
+                  'w-6 sm:w-10 h-1 rounded-sm transition-colors duration-200 -mt-6',
                   isPast ? 'bg-muted-foreground' : 'bg-muted',
                 )}
               />

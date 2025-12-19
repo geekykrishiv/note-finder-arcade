@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import { NoteName } from '@/hooks/useAudio';
-import { CheckCircle2, XCircle, Sparkles } from 'lucide-react';
+import { CheckCircle2, XCircle, Star } from 'lucide-react';
 
 interface FeedbackDisplayProps {
   isCorrect: boolean | null;
@@ -24,49 +24,48 @@ export function FeedbackDisplay({
   return (
     <div
       className={cn(
-        'flex flex-col items-center gap-4 p-6 rounded-2xl animate-scale-in',
-        isCorrect ? 'bg-success/10' : 'bg-destructive/10',
-        isCorrect ? 'feedback-correct' : 'feedback-incorrect',
+        'flex flex-col items-center gap-4 p-6 rounded-xl animate-scale-in',
+        isCorrect ? 'retro-feedback-correct' : 'retro-feedback-incorrect',
       )}
     >
       <div className="flex items-center gap-3">
         {isCorrect ? (
           <>
             <CheckCircle2 className="w-8 h-8 text-success" />
-            <span className="text-2xl font-bold text-success">Perfect!</span>
-            <Sparkles className="w-6 h-6 text-success animate-pulse" />
+            <span className="font-pixel text-lg sm:text-xl text-success">PERFECT!</span>
+            <Star className="w-6 h-6 text-success fill-success" />
           </>
         ) : (
           <>
             <XCircle className="w-8 h-8 text-destructive" />
-            <span className="text-2xl font-bold text-destructive">Not quite</span>
+            <span className="font-pixel text-lg sm:text-xl text-destructive">TRY AGAIN</span>
           </>
         )}
       </div>
 
       {!isCorrect && targetNote && targetOctave && (
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-muted-foreground">The note was:</p>
+        <div className="flex flex-col items-center gap-3">
+          <p className="font-retro text-xl text-muted-foreground">The note was:</p>
           <div className="flex items-baseline gap-1">
-            <span className="text-4xl font-mono font-bold text-primary">
+            <span className="font-pixel text-4xl text-primary">
               {targetNote}
             </span>
-            <span className="text-2xl font-mono text-primary/70">
+            <span className="font-retro text-3xl text-primary/70">
               {targetOctave}
             </span>
           </div>
-          <p className="text-sm text-muted-foreground mt-2">
-            You guessed: {selectedNote}{selectedOctave}
+          <p className="font-retro text-lg text-muted-foreground mt-1">
+            You guessed: <span className="text-foreground">{selectedNote}{selectedOctave}</span>
           </p>
         </div>
       )}
 
       {isCorrect && (
         <div className="flex items-baseline gap-1">
-          <span className="text-4xl font-mono font-bold text-success">
+          <span className="font-pixel text-4xl text-success">
             {targetNote}
           </span>
-          <span className="text-2xl font-mono text-success/70">
+          <span className="font-retro text-3xl text-success/70">
             {targetOctave}
           </span>
         </div>
