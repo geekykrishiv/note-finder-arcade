@@ -5,3 +5,4 @@ export { FeedbackDisplay } from './FeedbackDisplay';
 export { PlayButton } from './PlayButton';
 export { GameStats } from './GameStats';
 export { ParallaxBackground } from './ParallaxBackground';
+export { LoadingScreen } from './LoadingScreen';

@@ -25,12 +25,20 @@ interface UseTrainingSessionReturn {
   resetSession: () => void;
   canSubmit: boolean;
   canReplay: boolean;
+  minOctave: number;
+  maxOctave: number;
 }
 
-// Generate a random note within a reasonable octave range (3-5 for pleasant sounds)
+// Default octave range: 2-6 (expandable later)
+const MIN_OCTAVE = 2;
+const MAX_OCTAVE = 6;
+
+// Generate a random note within the octave range
 function generateRandomNote(): { note: NoteName; octave: number } {
   const noteIndex = Math.floor(Math.random() * NOTE_NAMES.length);
-  const octave = Math.floor(Math.random() * 3) + 3; // Octaves 3, 4, or 5
+  // Random octave between MIN and MAX (inclusive)
+  const octaveRange = MAX_OCTAVE - MIN_OCTAVE + 1;
+  const octave = Math.floor(Math.random() * octaveRange) + MIN_OCTAVE;
   return {
     note: NOTE_NAMES[noteIndex],
     octave,
@@ -127,5 +135,7 @@ export function useTrainingSession(): UseTrainingSessionReturn {
     resetSession,
     canSubmit,
     canReplay,
+    minOctave: MIN_OCTAVE,
+    maxOctave: MAX_OCTAVE,
   };
 }
