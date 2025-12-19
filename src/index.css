@@ -2,95 +2,104 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* Ear Training Arcade Design System
+   Aesthetic: Clean arcade/rhythm game - intentional, focused, not chaotic
+   Theme: Dark with warm amber/gold accents for musical warmth
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dark arcade theme */
+    --background: 240 10% 6%;
+    --foreground: 45 10% 92%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 240 10% 9%;
+    --card-foreground: 45 10% 92%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 240 10% 9%;
+    --popover-foreground: 45 10% 92%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Amber/Gold primary - warm musical feel */
+    --primary: 38 92% 50%;
+    --primary-foreground: 240 10% 6%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Muted amber secondary */
+    --secondary: 38 30% 18%;
+    --secondary-foreground: 45 10% 92%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 8% 15%;
+    --muted-foreground: 240 5% 55%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 38 60% 25%;
+    --accent-foreground: 45 10% 92%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Feedback colors */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 45 10% 92%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --success: 142 71% 45%;
+    --success-foreground: 240 10% 6%;
 
-    --radius: 0.5rem;
+    --border: 240 8% 18%;
+    --input: 240 8% 18%;
+    --ring: 38 92% 50%;
 
-    --sidebar-background: 0 0% 98%;
+    --radius: 0.75rem;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Game-specific tokens */
+    --game-surface: 240 10% 11%;
+    --game-surface-hover: 240 10% 14%;
+    --game-border: 240 8% 20%;
+    --game-glow: 38 92% 50%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Stage colors */
+    --stage-listen: 217 91% 60%;
+    --stage-guess: 38 92% 50%;
+    --stage-result: 142 71% 45%;
 
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar defaults (keeping for shadcn compatibility) */
+    --sidebar-background: 240 10% 8%;
+    --sidebar-foreground: 45 10% 92%;
+    --sidebar-primary: 38 92% 50%;
+    --sidebar-primary-foreground: 240 10% 6%;
+    --sidebar-accent: 38 30% 18%;
+    --sidebar-accent-foreground: 45 10% 92%;
+    --sidebar-border: 240 8% 18%;
+    --sidebar-ring: 38 92% 50%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Dark mode is the default, same values */
+    --background: 240 10% 6%;
+    --foreground: 45 10% 92%;
+    --card: 240 10% 9%;
+    --card-foreground: 45 10% 92%;
+    --popover: 240 10% 9%;
+    --popover-foreground: 45 10% 92%;
+    --primary: 38 92% 50%;
+    --primary-foreground: 240 10% 6%;
+    --secondary: 38 30% 18%;
+    --secondary-foreground: 45 10% 92%;
+    --muted: 240 8% 15%;
+    --muted-foreground: 240 5% 55%;
+    --accent: 38 60% 25%;
+    --accent-foreground: 45 10% 92%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 45 10% 92%;
+    --success: 142 71% 45%;
+    --success-foreground: 240 10% 6%;
+    --border: 240 8% 18%;
+    --input: 240 8% 18%;
+    --ring: 38 92% 50%;
+    --game-surface: 240 10% 11%;
+    --game-surface-hover: 240 10% 14%;
+    --game-border: 240 8% 20%;
+    --game-glow: 38 92% 50%;
+    --stage-listen: 217 91% 60%;
+    --stage-guess: 38 92% 50%;
+    --stage-result: 142 71% 45%;
   }
 }
 
@@ -100,6 +109,90 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  /* Game panel styling */
+  .game-panel {
+    @apply bg-game-surface border border-game-border rounded-2xl;
+  }
+
+  /* Note button base */
+  .note-button {
+    @apply relative overflow-hidden transition-all duration-200;
+    @apply bg-secondary/50 border-2 border-transparent;
+    @apply hover:bg-secondary hover:border-primary/30;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary;
+  }
+
+  .note-button-selected {
+    @apply bg-primary/20 border-primary text-primary;
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+
+  /* Stage indicator */
+  .stage-dot {
+    @apply w-3 h-3 rounded-full transition-all duration-300;
+  }
+
+  .stage-dot-active {
+    box-shadow: 0 0 12px currentColor;
+  }
+
+  /* Play button glow effect */
+  .play-button-glow {
+    box-shadow: 
+      0 0 20px hsl(var(--primary) / 0.4),
+      0 0 40px hsl(var(--primary) / 0.2),
+      inset 0 1px 0 hsl(var(--primary-foreground) / 0.1);
+  }
+
+  /* Feedback animations */
+  .feedback-correct {
+    animation: correctPulse 0.6s ease-out;
+  }
+
+  .feedback-incorrect {
+    animation: incorrectShake 0.4s ease-out;
+  }
+
+  @keyframes correctPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes incorrectShake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  /* Subtle background pattern */
+  .arcade-bg {
+    background-image: 
+      radial-gradient(circle at 50% 0%, hsl(var(--primary) / 0.08) 0%, transparent 50%),
+      linear-gradient(to bottom, hsl(var(--background)) 0%, hsl(240 10% 4%) 100%);
+  }
+}
+
+@layer utilities {
+  /* Text glow for emphasis */
+  .text-glow {
+    text-shadow: 0 0 20px currentColor;
+  }
+
+  /* Subtle press effect */
+  .press-effect {
+    @apply active:scale-95 transition-transform duration-100;
   }
 }
