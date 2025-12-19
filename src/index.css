@@ -2,312 +2,338 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Outfit:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
-/* Ear Training Arcade - Retro Arcade Design System
-   Aesthetic: Classic arcade cabinets, warm retro feel
-   NOT: Neon glassmorphism, crypto dashboards, sci-fi
+/* Ear Training Arcade - TRUE 8-BIT NES STYLE
+   NO gradients, NO blur, NO glass, NO glow
+   Hard pixel borders, flat colors, sharp edges
 */
 
 @layer base {
   :root {
-    /* Warm retro arcade palette */
-    --background: 30 15% 8%;
-    --foreground: 45 30% 90%;
+    /* True 8-bit NES palette - flat, bold colors */
+    --background: 240 5% 6%;
+    --foreground: 60 10% 90%;
 
-    --card: 30 12% 12%;
-    --card-foreground: 45 30% 90%;
+    --card: 240 5% 10%;
+    --card-foreground: 60 10% 90%;
 
-    --popover: 30 12% 12%;
-    --popover-foreground: 45 30% 90%;
+    --popover: 240 5% 10%;
+    --popover-foreground: 60 10% 90%;
 
-    /* Warm orange/amber primary */
-    --primary: 25 95% 55%;
-    --primary-foreground: 30 15% 8%;
+    /* NES Orange - flat, bold */
+    --primary: 25 100% 50%;
+    --primary-foreground: 240 5% 6%;
 
-    /* Muted warm secondary */
-    --secondary: 30 20% 20%;
-    --secondary-foreground: 45 30% 90%;
+    /* Dark surface */
+    --secondary: 240 5% 15%;
+    --secondary-foreground: 60 10% 90%;
 
-    --muted: 30 10% 18%;
-    --muted-foreground: 30 15% 50%;
+    --muted: 240 5% 12%;
+    --muted-foreground: 240 5% 45%;
 
-    --accent: 25 70% 35%;
-    --accent-foreground: 45 30% 90%;
+    --accent: 200 100% 50%;
+    --accent-foreground: 240 5% 6%;
 
-    /* Feedback colors */
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 45 30% 95%;
+    /* Feedback colors - NES style */
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 60 10% 95%;
 
-    --success: 145 60% 40%;
-    --success-foreground: 30 15% 8%;
+    --success: 120 100% 35%;
+    --success-foreground: 240 5% 6%;
 
-    --border: 30 15% 22%;
-    --input: 30 15% 22%;
-    --ring: 25 95% 55%;
+    --border: 240 5% 25%;
+    --input: 240 5% 20%;
+    --ring: 25 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0px;
 
-    /* Retro-specific tokens */
-    --retro-bg: 30 15% 8%;
-    --retro-surface: 30 12% 14%;
-    --retro-surface-raised: 30 12% 18%;
-    --retro-border: 30 15% 25%;
-    --retro-border-dark: 30 15% 10%;
-    --retro-shadow: 30 20% 6%;
-    
-    /* Retro accent colors */
-    --retro-primary: 25 95% 55%;
-    --retro-accent: 45 90% 65%;
-    --retro-cream: 45 50% 85%;
-    --retro-grid: 30 20% 40%;
+    /* 8-bit specific tokens - NO HSL FUNCTIONS IN SHADOWS */
+    --pixel-bg: 240 5% 6%;
+    --pixel-surface: 240 5% 12%;
+    --pixel-raised: 240 5% 18%;
+    --pixel-border: 240 5% 30%;
+    --pixel-border-dark: 240 5% 5%;
+    --pixel-highlight: 240 5% 40%;
 
-    /* Stage colors - warm palette */
-    --stage-listen: 200 70% 55%;
-    --stage-guess: 25 95% 55%;
-    --stage-result: 145 60% 45%;
+    /* NES color accents */
+    --nes-orange: 25 100% 50%;
+    --nes-yellow: 50 100% 50%;
+    --nes-green: 120 100% 35%;
+    --nes-blue: 200 100% 50%;
+    --nes-red: 0 100% 50%;
+    --nes-white: 60 10% 90%;
+    --nes-black: 240 5% 6%;
+
+    /* Stage colors - bold, flat */
+    --stage-listen: 200 100% 50%;
+    --stage-guess: 25 100% 50%;
+    --stage-result: 120 100% 35%;
 
     /* Sidebar defaults */
-    --sidebar-background: 30 12% 10%;
-    --sidebar-foreground: 45 30% 90%;
-    --sidebar-primary: 25 95% 55%;
-    --sidebar-primary-foreground: 30 15% 8%;
-    --sidebar-accent: 30 20% 20%;
-    --sidebar-accent-foreground: 45 30% 90%;
-    --sidebar-border: 30 15% 22%;
-    --sidebar-ring: 25 95% 55%;
-  }
-
-  .dark {
-    /* Same as root - dark is default */
-    --background: 30 15% 8%;
-    --foreground: 45 30% 90%;
-    --card: 30 12% 12%;
-    --card-foreground: 45 30% 90%;
-    --popover: 30 12% 12%;
-    --popover-foreground: 45 30% 90%;
-    --primary: 25 95% 55%;
-    --primary-foreground: 30 15% 8%;
-    --secondary: 30 20% 20%;
-    --secondary-foreground: 45 30% 90%;
-    --muted: 30 10% 18%;
-    --muted-foreground: 30 15% 50%;
-    --accent: 25 70% 35%;
-    --accent-foreground: 45 30% 90%;
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 45 30% 95%;
-    --success: 145 60% 40%;
-    --success-foreground: 30 15% 8%;
-    --border: 30 15% 22%;
-    --input: 30 15% 22%;
-    --ring: 25 95% 55%;
+    --sidebar-background: 240 5% 8%;
+    --sidebar-foreground: 60 10% 90%;
+    --sidebar-primary: 25 100% 50%;
+    --sidebar-primary-foreground: 240 5% 6%;
+    --sidebar-accent: 240 5% 15%;
+    --sidebar-accent-foreground: 60 10% 90%;
+    --sidebar-border: 240 5% 25%;
+    --sidebar-ring: 25 100% 50%;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
+    /* Disable anti-aliasing for true pixel feel */
+    image-rendering: pixelated;
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Outfit', system-ui, sans-serif;
+    @apply bg-background text-foreground;
+    font-family: 'Press Start 2P', monospace;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: auto;
   }
 
-  /* Typography */
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight;
+  /* All text uses pixel font */
+  h1, h2, h3, h4, h5, h6, p, span, label, button {
+    font-family: 'Press Start 2P', monospace;
   }
 }
 
 @layer components {
-  /* Retro panel - chunky, solid, tactile */
-  .retro-panel {
-    @apply relative;
-    background: hsl(var(--retro-surface));
-    border: 4px solid hsl(var(--retro-border));
-    border-radius: 12px;
+  /* 8-BIT PANEL - Sharp edges, no rounded corners */
+  .pixel-panel {
+    background: hsl(var(--pixel-surface));
+    border: 4px solid hsl(var(--pixel-border));
+    border-top-color: hsl(var(--pixel-highlight));
+    border-left-color: hsl(var(--pixel-highlight));
+    border-bottom-color: hsl(var(--pixel-border-dark));
+    border-right-color: hsl(var(--pixel-border-dark));
     box-shadow: 
-      6px 6px 0 hsl(var(--retro-shadow)),
-      inset 0 2px 0 hsl(var(--retro-surface-raised));
+      4px 4px 0 hsl(var(--nes-black)),
+      8px 8px 0 hsl(var(--nes-black) / 0.5);
   }
 
-  .retro-panel-inset {
-    background: hsl(var(--retro-bg));
-    border: 3px solid hsl(var(--retro-border-dark));
-    border-radius: 8px;
-    box-shadow: inset 2px 2px 4px hsl(var(--retro-shadow));
+  .pixel-panel-inset {
+    background: hsl(var(--pixel-bg));
+    border: 4px solid hsl(var(--pixel-border-dark));
+    border-top-color: hsl(var(--pixel-border-dark));
+    border-left-color: hsl(var(--pixel-border-dark));
+    border-bottom-color: hsl(var(--pixel-highlight));
+    border-right-color: hsl(var(--pixel-highlight));
   }
 
-  /* Retro button - chunky, pressable */
-  .retro-button {
-    @apply relative font-bold uppercase tracking-wider;
-    @apply transition-all duration-100;
-    background: hsl(var(--retro-surface-raised));
-    border: 4px solid hsl(var(--retro-border));
-    border-radius: 8px;
-    box-shadow: 
-      4px 4px 0 hsl(var(--retro-shadow)),
-      inset 0 2px 0 hsl(30 12% 25%);
-  }
-
-  .retro-button:hover:not(:disabled) {
-    background: hsl(var(--retro-surface));
-    transform: translate(1px, 1px);
-    box-shadow: 
-      3px 3px 0 hsl(var(--retro-shadow)),
-      inset 0 2px 0 hsl(30 12% 22%);
-  }
-
-  .retro-button:active:not(:disabled) {
-    transform: translate(4px, 4px);
-    box-shadow: 
-      0 0 0 hsl(var(--retro-shadow)),
-      inset 0 2px 4px hsl(var(--retro-shadow));
-  }
-
-  .retro-button:disabled {
-    @apply opacity-50 cursor-not-allowed;
-  }
-
-  /* Primary action button */
-  .retro-button-primary {
-    background: hsl(var(--retro-primary));
-    color: hsl(var(--primary-foreground));
-    border-color: hsl(25 80% 35%);
-    box-shadow: 
-      4px 4px 0 hsl(25 70% 25%),
-      inset 0 2px 0 hsl(25 95% 65%);
-  }
-
-  .retro-button-primary:hover:not(:disabled) {
-    background: hsl(25 90% 50%);
-    box-shadow: 
-      3px 3px 0 hsl(25 70% 25%),
-      inset 0 2px 0 hsl(25 95% 60%);
-  }
-
-  .retro-button-primary:active:not(:disabled) {
-    background: hsl(25 85% 45%);
-    box-shadow: 
-      0 0 0 hsl(25 70% 25%),
-      inset 0 2px 4px hsl(25 70% 30%);
-  }
-
-  /* Success button */
-  .retro-button-success {
-    background: hsl(var(--success));
-    color: hsl(var(--success-foreground));
-    border-color: hsl(145 50% 28%);
-    box-shadow: 
-      4px 4px 0 hsl(145 50% 20%),
-      inset 0 2px 0 hsl(145 60% 50%);
-  }
-
-  .retro-button-success:hover:not(:disabled) {
-    background: hsl(145 55% 38%);
-  }
-
-  /* Note selector button */
-  .retro-note-button {
-    @apply relative font-mono font-bold text-lg;
-    background: hsl(var(--retro-surface-raised));
-    border: 3px solid hsl(var(--retro-border));
-    border-radius: 6px;
-    box-shadow: 
-      3px 3px 0 hsl(var(--retro-shadow)),
-      inset 0 1px 0 hsl(30 12% 25%);
-    transition: all 0.1s ease;
-  }
-
-  .retro-note-button:hover:not(:disabled) {
-    background: hsl(var(--retro-surface));
-    transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0 hsl(var(--retro-shadow));
-  }
-
-  .retro-note-button:active:not(:disabled) {
-    transform: translate(3px, 3px);
-    box-shadow: 0 0 0 hsl(var(--retro-shadow));
-  }
-
-  .retro-note-button-selected {
-    background: hsl(var(--retro-primary));
-    color: hsl(var(--primary-foreground));
-    border-color: hsl(25 80% 40%);
-    box-shadow: 
-      3px 3px 0 hsl(25 70% 25%),
-      inset 0 1px 0 hsl(25 95% 65%);
-  }
-
-  .retro-note-button-selected:hover:not(:disabled) {
-    background: hsl(25 90% 52%);
-  }
-
-  /* Retro text styles */
-  .retro-title {
+  /* 8-BIT BUTTON - Chunky, pressable, no gradients */
+  .pixel-button {
+    @apply relative uppercase;
     font-family: 'Press Start 2P', monospace;
-    text-shadow: 
-      3px 3px 0 hsl(var(--retro-shadow)),
-      -1px -1px 0 hsl(var(--retro-border));
+    background: hsl(var(--pixel-raised));
+    border: 4px solid hsl(var(--pixel-border));
+    border-top-color: hsl(var(--pixel-highlight));
+    border-left-color: hsl(var(--pixel-highlight));
+    border-bottom-color: hsl(var(--pixel-border-dark));
+    border-right-color: hsl(var(--pixel-border-dark));
+    box-shadow: 4px 4px 0 hsl(var(--nes-black));
+    transition: none;
   }
 
-  .retro-label {
-    font-family: 'VT323', monospace;
-    letter-spacing: 0.05em;
+  .pixel-button:hover:not(:disabled) {
+    background: hsl(var(--pixel-surface));
   }
 
-  /* Stage indicator retro style */
-  .retro-stage {
+  .pixel-button:active:not(:disabled) {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+    border-top-color: hsl(var(--pixel-border-dark));
+    border-left-color: hsl(var(--pixel-border-dark));
+    border-bottom-color: hsl(var(--pixel-highlight));
+    border-right-color: hsl(var(--pixel-highlight));
+  }
+
+  .pixel-button:disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  /* PRIMARY BUTTON - NES Orange */
+  .pixel-button-primary {
+    background: hsl(var(--nes-orange));
+    color: hsl(var(--nes-black));
+    border-color: hsl(30 80% 30%);
+    border-top-color: hsl(30 100% 65%);
+    border-left-color: hsl(30 100% 65%);
+    border-bottom-color: hsl(30 80% 25%);
+    border-right-color: hsl(30 80% 25%);
+  }
+
+  .pixel-button-primary:hover:not(:disabled) {
+    background: hsl(30 100% 55%);
+  }
+
+  .pixel-button-primary:active:not(:disabled) {
+    background: hsl(30 90% 40%);
+    border-top-color: hsl(30 80% 25%);
+    border-left-color: hsl(30 80% 25%);
+    border-bottom-color: hsl(30 100% 65%);
+    border-right-color: hsl(30 100% 65%);
+  }
+
+  /* SUCCESS BUTTON - NES Green */
+  .pixel-button-success {
+    background: hsl(var(--nes-green));
+    color: hsl(var(--nes-white));
+    border-color: hsl(120 80% 20%);
+    border-top-color: hsl(120 100% 45%);
+    border-left-color: hsl(120 100% 45%);
+    border-bottom-color: hsl(120 80% 20%);
+    border-right-color: hsl(120 80% 20%);
+  }
+
+  .pixel-button-success:hover:not(:disabled) {
+    background: hsl(120 100% 40%);
+  }
+
+  /* NOTE SELECTOR BUTTON */
+  .pixel-note-button {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    background: hsl(var(--pixel-raised));
+    border: 3px solid hsl(var(--pixel-border));
+    border-top-color: hsl(var(--pixel-highlight));
+    border-left-color: hsl(var(--pixel-highlight));
+    border-bottom-color: hsl(var(--pixel-border-dark));
+    border-right-color: hsl(var(--pixel-border-dark));
+    box-shadow: 3px 3px 0 hsl(var(--nes-black));
+    transition: none;
+  }
+
+  .pixel-note-button:hover:not(:disabled) {
+    background: hsl(var(--pixel-surface));
+  }
+
+  .pixel-note-button:active:not(:disabled) {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+
+  .pixel-note-button-selected {
+    background: hsl(var(--nes-orange));
+    color: hsl(var(--nes-black));
+    border-color: hsl(30 80% 30%);
+    border-top-color: hsl(30 100% 65%);
+    border-left-color: hsl(30 100% 65%);
+    border-bottom-color: hsl(30 80% 25%);
+    border-right-color: hsl(30 80% 25%);
+  }
+
+  /* STAGE INDICATOR - 8-bit style */
+  .pixel-stage {
     @apply flex items-center justify-center;
-    background: hsl(var(--retro-surface));
-    border: 3px solid hsl(var(--retro-border));
-    border-radius: 8px;
-    box-shadow: inset 2px 2px 4px hsl(var(--retro-shadow));
+    background: hsl(var(--pixel-surface));
+    border: 3px solid hsl(var(--pixel-border-dark));
+    border-top-color: hsl(var(--pixel-border-dark));
+    border-left-color: hsl(var(--pixel-border-dark));
+    border-bottom-color: hsl(var(--pixel-highlight));
+    border-right-color: hsl(var(--pixel-highlight));
   }
 
-  .retro-stage-active {
-    background: hsl(var(--stage-guess) / 0.2);
-    border-color: hsl(var(--stage-guess));
-    box-shadow: 
-      0 0 12px hsl(var(--stage-guess) / 0.4),
-      inset 0 0 8px hsl(var(--stage-guess) / 0.2);
+  .pixel-stage-active-listen {
+    background: hsl(var(--nes-blue));
+    border-color: hsl(200 80% 30%);
+    border-top-color: hsl(200 100% 65%);
+    border-left-color: hsl(200 100% 65%);
+    border-bottom-color: hsl(200 80% 25%);
+    border-right-color: hsl(200 80% 25%);
   }
 
-  /* Feedback styles */
-  .retro-feedback-correct {
-    background: hsl(var(--success) / 0.15);
-    border: 4px solid hsl(var(--success));
-    box-shadow: 
-      0 0 20px hsl(var(--success) / 0.3),
-      inset 0 0 10px hsl(var(--success) / 0.1);
+  .pixel-stage-active-guess {
+    background: hsl(var(--nes-orange));
+    border-color: hsl(30 80% 30%);
+    border-top-color: hsl(30 100% 65%);
+    border-left-color: hsl(30 100% 65%);
+    border-bottom-color: hsl(30 80% 25%);
+    border-right-color: hsl(30 80% 25%);
   }
 
-  .retro-feedback-incorrect {
-    background: hsl(var(--destructive) / 0.15);
-    border: 4px solid hsl(var(--destructive));
-    box-shadow: 
-      0 0 20px hsl(var(--destructive) / 0.3),
-      inset 0 0 10px hsl(var(--destructive) / 0.1);
+  .pixel-stage-active-result {
+    background: hsl(var(--nes-green));
+    border-color: hsl(120 80% 20%);
+    border-top-color: hsl(120 100% 45%);
+    border-left-color: hsl(120 100% 45%);
+    border-bottom-color: hsl(120 80% 20%);
+    border-right-color: hsl(120 80% 20%);
   }
 
-  /* Animations */
-  @keyframes retro-pulse {
+  /* FEEDBACK PANELS */
+  .pixel-feedback-correct {
+    background: hsl(var(--nes-green));
+    border: 4px solid hsl(120 80% 20%);
+    border-top-color: hsl(120 100% 45%);
+    border-left-color: hsl(120 100% 45%);
+    border-bottom-color: hsl(120 80% 20%);
+    border-right-color: hsl(120 80% 20%);
+    box-shadow: 4px 4px 0 hsl(var(--nes-black));
+  }
+
+  .pixel-feedback-incorrect {
+    background: hsl(var(--nes-red));
+    border: 4px solid hsl(0 80% 30%);
+    border-top-color: hsl(0 100% 65%);
+    border-left-color: hsl(0 100% 65%);
+    border-bottom-color: hsl(0 80% 25%);
+    border-right-color: hsl(0 80% 25%);
+    box-shadow: 4px 4px 0 hsl(var(--nes-black));
+  }
+
+  /* LOADING BAR - 8-bit style */
+  .pixel-loading-bar {
+    background: hsl(var(--pixel-bg));
+    border: 3px solid hsl(var(--pixel-border-dark));
+    border-top-color: hsl(var(--pixel-border-dark));
+    border-left-color: hsl(var(--pixel-border-dark));
+    border-bottom-color: hsl(var(--pixel-highlight));
+    border-right-color: hsl(var(--pixel-highlight));
+  }
+
+  .pixel-loading-fill {
+    background: hsl(var(--nes-orange));
+    height: 100%;
+    transition: width 0.1s steps(10);
+  }
+
+  /* 8-BIT ANIMATIONS - Simple, no smooth transitions */
+  @keyframes pixel-blink {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+    50% { opacity: 0; }
   }
 
-  @keyframes retro-bounce {
+  @keyframes pixel-bounce {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
+    50% { transform: translateY(-8px); }
   }
 
-  .retro-pulse {
-    animation: retro-pulse 1.5s ease-in-out infinite;
+  .pixel-blink {
+    animation: pixel-blink 1s steps(2) infinite;
   }
 
-  .retro-bounce {
-    animation: retro-bounce 0.6s ease-in-out;
+  .pixel-bounce {
+    animation: pixel-bounce 0.5s steps(4) infinite;
+  }
+
+  /* Scanline effect for CRT feel */
+  .scanlines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--nes-black) / 0.1) 2px,
+      hsl(var(--nes-black) / 0.1) 4px
+    );
+    pointer-events: none;
   }
 }
 
@@ -318,5 +344,16 @@
 
   .font-retro {
     font-family: 'VT323', monospace;
+  }
+
+  /* Text shadow for 8-bit depth */
+  .pixel-shadow {
+    text-shadow: 2px 2px 0 hsl(var(--nes-black));
+  }
+
+  /* Disable smooth rendering for true pixel look */
+  .pixel-render {
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
   }
 }

@@ -1,6 +1,5 @@
 import { cn } from '@/lib/utils';
 import { NoteName } from '@/hooks/useAudio';
-import { CheckCircle2, XCircle, Star } from 'lucide-react';
 
 interface FeedbackDisplayProps {
   isCorrect: boolean | null;
@@ -17,59 +16,53 @@ export function FeedbackDisplay({
   selectedNote,
   selectedOctave,
 }: FeedbackDisplayProps) {
-  if (isCorrect === null) {
-    return null;
-  }
+  if (isCorrect === null) return null;
 
   return (
     <div
       className={cn(
-        'flex flex-col items-center gap-4 p-6 rounded-xl animate-scale-in',
-        isCorrect ? 'retro-feedback-correct' : 'retro-feedback-incorrect',
+        'p-6 sm:p-8 text-center',
+        isCorrect ? 'pixel-feedback-correct' : 'pixel-feedback-incorrect',
       )}
     >
-      <div className="flex items-center gap-3">
-        {isCorrect ? (
-          <>
-            <CheckCircle2 className="w-8 h-8 text-success" />
-            <span className="font-pixel text-lg sm:text-xl text-success">PERFECT!</span>
-            <Star className="w-6 h-6 text-success fill-success" />
-          </>
-        ) : (
-          <>
-            <XCircle className="w-8 h-8 text-destructive" />
-            <span className="font-pixel text-lg sm:text-xl text-destructive">TRY AGAIN</span>
-          </>
+      {/* Result text */}
+      <div className="mb-4">
+        <span
+          className={cn(
+            'text-sm sm:text-base pixel-shadow',
+            isCorrect ? 'text-foreground' : 'text-foreground',
+            'pixel-bounce'
+          )}
+        >
+          {isCorrect ? 'CORRECT!' : 'WRONG!'}
+        </span>
+      </div>
+
+      {/* Note comparison */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-center gap-3 text-[8px] sm:text-[10px]">
+          <span className="text-foreground/70">ANSWER:</span>
+          <span className="text-foreground pixel-shadow">
+            {targetNote}{targetOctave}
+          </span>
+        </div>
+        
+        {!isCorrect && (
+          <div className="flex items-center justify-center gap-3 text-[8px] sm:text-[10px]">
+            <span className="text-foreground/70">YOUR GUESS:</span>
+            <span className="text-foreground pixel-shadow">
+              {selectedNote}{selectedOctave}
+            </span>
+          </div>
         )}
       </div>
 
-      {!isCorrect && targetNote && targetOctave && (
-        <div className="flex flex-col items-center gap-3">
-          <p className="font-retro text-xl text-muted-foreground">The note was:</p>
-          <div className="flex items-baseline gap-1">
-            <span className="font-pixel text-4xl text-primary">
-              {targetNote}
-            </span>
-            <span className="font-retro text-3xl text-primary/70">
-              {targetOctave}
-            </span>
-          </div>
-          <p className="font-retro text-lg text-muted-foreground mt-1">
-            You guessed: <span className="text-foreground">{selectedNote}{selectedOctave}</span>
-          </p>
-        </div>
-      )}
-
-      {isCorrect && (
-        <div className="flex items-baseline gap-1">
-          <span className="font-pixel text-4xl text-success">
-            {targetNote}
-          </span>
-          <span className="font-retro text-3xl text-success/70">
-            {targetOctave}
-          </span>
-        </div>
-      )}
+      {/* Encouragement */}
+      <div className="mt-4 text-[6px] sm:text-[8px] text-foreground/80">
+        {isCorrect 
+          ? 'GREAT EAR!' 
+          : 'KEEP TRAINING!'}
+      </div>
     </div>
   );
 }
