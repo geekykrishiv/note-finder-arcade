@@ -14,10 +14,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Outfit", "system-ui", "sans-serif"],
-        pixel: ["'Press Start 2P'", "monospace"],
-        retro: ["VT323", "monospace"],
-        mono: ["VT323", "monospace"],
+        sans: ["'ArcadeClassic'", "'Press Start 2P'", "monospace"],
+        pixel: ["'ArcadeClassic'", "'Press Start 2P'", "monospace"],
+        retro: ["'ArcadeClassic'", "'Press Start 2P'", "monospace"],
+        mono: ["'ArcadeClassic'", "'Press Start 2P'", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",

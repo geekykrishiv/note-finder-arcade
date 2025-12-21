@@ -85,15 +85,15 @@ const Index = () => {
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Pixel music icon */}
             <div className="pixel-panel-inset w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="hsl(var(--primary))" className="sm:w-5 sm:h-5">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="hsl(180, 100%, 50%)" className="sm:w-5 sm:h-5">
                 <rect x="10" y="1" width="3" height="10" />
                 <rect x="2" y="9" width="8" height="2" />
                 <rect x="0" y="11" width="6" height="4" />
               </svg>
             </div>
-            <h1 className="text-[8px] sm:text-[10px] pixel-shadow">
-              <span className="text-foreground">EAR</span>
-              <span className="text-primary">TRAINING</span>
+            <h1 className="text-[10px] sm:text-xs pixel-shadow">
+              <span className="neon-text-cyan">EAR</span>
+              <span className="neon-text-magenta">TRAINING</span>
             </h1>
           </div>
           <GameStats

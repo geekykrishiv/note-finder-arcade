@@ -1,24 +1,16 @@
 import { useCallback, useRef, useEffect, useState } from 'react';
+import JSZip from 'jszip';
 
-// Note frequencies based on A4 = 440Hz
+// Note names for mapping
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'] as const;
 
 export type NoteName = typeof NOTE_NAMES[number];
 
-// MIDI.js soundfont URLs - using acoustic_grand_piano
-const SOUNDFONT_URL = 'https://gleitz.github.io/midi-js-soundfonts/FatBoy/acoustic_grand_piano-mp3';
-
-// Map note names to MIDI.js file format
+// Map from our note names to the sample file naming convention
+// Samples use lowercase: c1, cs1 (sharp), d1, ds1, e1, f1, fs1, g1, gs1, a0, as0, b0, etc.
 function getNoteFileName(note: NoteName, octave: number): string {
-  // MIDI.js uses format like "A4", "Cs4" (s for sharp)
-  const noteStr = note.replace('#', 's');
+  const noteStr = note.toLowerCase().replace('#', 's');
   return `${noteStr}${octave}`;
-}
-
-// Convert note to MIDI number for pitch shifting if needed
-function noteToMidi(note: NoteName, octave: number): number {
-  const noteIndex = NOTE_NAMES.indexOf(note);
-  return (octave + 1) * 12 + noteIndex;
 }
 
 interface UseAudioReturn {
@@ -33,9 +25,10 @@ interface UseAudioReturn {
 const audioBufferCache: Map<string, AudioBuffer> = new Map();
 let isPreloading = false;
 let preloadProgress = 0;
+let zipSamples: Map<string, ArrayBuffer> | null = null;
 
-// Notes to preload (octaves 2-6, all notes)
-const PRELOAD_OCTAVES = [2, 3, 4, 5, 6];
+// Octaves available in the sample set (1-7)
+const SAMPLE_OCTAVES = [1, 2, 3, 4, 5, 6, 7];
 
 export function useAudio(): UseAudioReturn {
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -55,8 +48,42 @@ export function useAudio(): UseAudioReturn {
     return audioContextRef.current;
   }, []);
 
-  // Load a single sample
-  const loadSample = useCallback(async (note: NoteName, octave: number): Promise<AudioBuffer | null> => {
+  // Load and extract ZIP file
+  const loadZipSamples = useCallback(async (): Promise<Map<string, ArrayBuffer>> => {
+    if (zipSamples) return zipSamples;
+
+    const response = await fetch('/audio/piano-samples.zip');
+    const zipData = await response.arrayBuffer();
+    const zip = await JSZip.loadAsync(zipData);
+    
+    const samples = new Map<string, ArrayBuffer>();
+    const files = Object.keys(zip.files).filter(name => name.endsWith('.ogg'));
+    
+    let loaded = 0;
+    const total = files.length;
+
+    for (const fileName of files) {
+      const file = zip.files[fileName];
+      if (!file.dir) {
+        // Extract note name from filename like "448619__tedagame__d5.ogg.ogg"
+        const match = fileName.match(/__([a-g]s?\d)\.ogg/i);
+        if (match) {
+          const noteKey = match[1].toLowerCase();
+          const arrayBuffer = await file.async('arraybuffer');
+          samples.set(noteKey, arrayBuffer);
+        }
+      }
+      loaded++;
+      preloadProgress = Math.round((loaded / total) * 100);
+      setLoadProgress(preloadProgress);
+    }
+
+    zipSamples = samples;
+    return samples;
+  }, []);
+
+  // Decode a single sample
+  const decodeSample = useCallback(async (note: NoteName, octave: number): Promise<AudioBuffer | null> => {
     const cacheKey = `${note}${octave}`;
     
     // Return cached buffer if available
@@ -64,25 +91,27 @@ export function useAudio(): UseAudioReturn {
       return audioBufferCache.get(cacheKey)!;
     }
 
+    const samples = await loadZipSamples();
     const ctx = getAudioContext();
-    const fileName = getNoteFileName(note, octave);
-    const url = `${SOUNDFONT_URL}/${fileName}.mp3`;
+    const noteKey = getNoteFileName(note, octave);
+    
+    const arrayBuffer = samples.get(noteKey);
+    if (!arrayBuffer) {
+      console.warn(`Sample not found for ${noteKey}`);
+      return null;
+    }
 
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        console.warn(`Sample not found: ${url}`);
-        return null;
-      }
-      const arrayBuffer = await response.arrayBuffer();
-      const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+      // Clone the ArrayBuffer since decodeAudioData detaches it
+      const clonedBuffer = arrayBuffer.slice(0);
+      const audioBuffer = await ctx.decodeAudioData(clonedBuffer);
       audioBufferCache.set(cacheKey, audioBuffer);
       return audioBuffer;
     } catch (error) {
-      console.warn(`Failed to load sample ${fileName}:`, error);
+      console.warn(`Failed to decode sample ${noteKey}:`, error);
       return null;
     }
-  }, [getAudioContext]);
+  }, [getAudioContext, loadZipSamples]);
 
   // Preload samples on mount
   useEffect(() => {
@@ -99,40 +128,34 @@ export function useAudio(): UseAudioReturn {
     }
 
     isPreloading = true;
-    const samplesToLoad: Array<{ note: NoteName; octave: number }> = [];
     
-    PRELOAD_OCTAVES.forEach(octave => {
-      NOTE_NAMES.forEach(note => {
-        samplesToLoad.push({ note, octave });
-      });
-    });
-
-    let loaded = 0;
-    const total = samplesToLoad.length;
-
-    // Load samples in batches for better performance
-    const loadBatch = async (batch: typeof samplesToLoad) => {
-      await Promise.all(batch.map(async ({ note, octave }) => {
-        await loadSample(note, octave);
-        loaded++;
-        preloadProgress = Math.round((loaded / total) * 100);
-        setLoadProgress(preloadProgress);
-      }));
-    };
-
-    const batchSize = 8;
-    const batches: typeof samplesToLoad[] = [];
-    for (let i = 0; i < samplesToLoad.length; i += batchSize) {
-      batches.push(samplesToLoad.slice(i, i + batchSize));
-    }
-
     (async () => {
-      for (const batch of batches) {
-        await loadBatch(batch);
+      try {
+        // Load and extract ZIP
+        await loadZipSamples();
+        
+        // Pre-decode common octaves (2-6) for faster playback
+        const ctx = getAudioContext();
+        const samples = zipSamples!;
+        
+        const toDecode: Array<{ note: NoteName; octave: number }> = [];
+        for (let octave = 2; octave <= 6; octave++) {
+          for (const note of NOTE_NAMES) {
+            toDecode.push({ note, octave });
+          }
+        }
+
+        for (const { note, octave } of toDecode) {
+          await decodeSample(note, octave);
+        }
+        
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Failed to load piano samples:', error);
+        setIsLoading(false);
       }
-      setIsLoading(false);
     })();
-  }, [loadSample]);
+  }, [loadZipSamples, getAudioContext, decodeSample]);
 
   const stopNote = useCallback(() => {
     if (activeGainRef.current && activeSourceRef.current) {
@@ -162,12 +185,12 @@ export function useAudio(): UseAudioReturn {
     }, 60);
   }, []);
 
-  const playNote = useCallback(async (note: NoteName, octave: number, duration: number = 2.0) => {
+  const playNote = useCallback(async (note: NoteName, octave: number, duration: number = 3.0) => {
     // Stop any currently playing note
     stopNote();
 
     const ctx = getAudioContext();
-    const buffer = await loadSample(note, octave);
+    const buffer = await decodeSample(note, octave);
 
     if (!buffer) {
       console.warn(`No sample available for ${note}${octave}`);
@@ -178,13 +201,13 @@ export function useAudio(): UseAudioReturn {
     const source = ctx.createBufferSource();
     source.buffer = buffer;
 
-    // Create gain node for envelope
+    // Create gain node for natural envelope
     const gainNode = ctx.createGain();
     const now = ctx.currentTime;
 
-    // Natural piano envelope
-    gainNode.gain.setValueAtTime(0.8, now);
-    gainNode.gain.setValueAtTime(0.8, now + duration * 0.7);
+    // Natural piano envelope - let the sample's natural decay play
+    gainNode.gain.setValueAtTime(0.9, now);
+    gainNode.gain.setValueAtTime(0.9, now + duration * 0.8);
     gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration);
 
     // Connect nodes
@@ -198,7 +221,7 @@ export function useAudio(): UseAudioReturn {
     // Start playing
     source.start(now);
     source.stop(now + duration + 0.1);
-  }, [getAudioContext, loadSample, stopNote]);
+  }, [getAudioContext, decodeSample, stopNote]);
 
   return {
     playNote,
