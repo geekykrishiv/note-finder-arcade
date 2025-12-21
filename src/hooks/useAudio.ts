@@ -205,10 +205,13 @@ export function useAudio(): UseAudioReturn {
     const gainNode = ctx.createGain();
     const now = ctx.currentTime;
 
-    // Natural piano envelope - let the sample's natural decay play
+    // Natural piano envelope:
+    // - Full volume for first 3.5 seconds (let pitch lock in)
+    // - Gentle fade from 3.5s to 4s (natural decay feel)
+    // - No abrupt cutoff
     gainNode.gain.setValueAtTime(0.9, now);
-    gainNode.gain.setValueAtTime(0.9, now + duration * 0.8);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration);
+    gainNode.gain.setValueAtTime(0.9, now + 3.5); // Hold full volume
+    gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration); // Gentle fade
 
     // Connect nodes
     source.connect(gainNode);
@@ -218,9 +221,9 @@ export function useAudio(): UseAudioReturn {
     activeSourceRef.current = source;
     activeGainRef.current = gainNode;
 
-    // Start playing
+    // Start playing - let it ring for full duration plus a tiny buffer for fade
     source.start(now);
-    source.stop(now + duration + 0.1);
+    source.stop(now + duration + 0.2);
   }, [getAudioContext, decodeSample, stopNote]);
 
   return {
