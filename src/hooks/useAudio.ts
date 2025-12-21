@@ -185,7 +185,7 @@ export function useAudio(): UseAudioReturn {
     }, 60);
   }, []);
 
-  const playNote = useCallback(async (note: NoteName, octave: number, duration: number = 3.0) => {
+  const playNote = useCallback(async (note: NoteName, octave: number, duration: number = 4.0) => {
     // Stop any currently playing note
     stopNote();
 
