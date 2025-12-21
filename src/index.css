@@ -2,108 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+/* Arcade Classic Font from CDN - true 8-bit pixel font */
+@import url('https://fonts.cdnfonts.com/css/arcade-classic');
 
-/* Ear Training Arcade - TRUE 8-BIT NES STYLE
-   NO gradients, NO blur, NO glass, NO glow
-   Hard pixel borders, flat colors, sharp edges
+/* Fallback Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Ear Training Arcade - DARK NEON THEME
+   Dark charcoal base with playful neon accents
+   8-bit pixel aesthetic with arcade cabinet vibes
 */
 
 @layer base {
   :root {
-    /* True 8-bit NES palette - flat, bold colors */
-    --background: 240 5% 6%;
-    --foreground: 60 10% 90%;
+    /* Dark charcoal base - NOT pure black */
+    --background: 225 15% 10%;
+    --foreground: 60 10% 95%;
 
-    --card: 240 5% 10%;
-    --card-foreground: 60 10% 90%;
+    --card: 225 15% 13%;
+    --card-foreground: 60 10% 95%;
 
-    --popover: 240 5% 10%;
-    --popover-foreground: 60 10% 90%;
+    --popover: 225 15% 13%;
+    --popover-foreground: 60 10% 95%;
 
-    /* NES Orange - flat, bold */
-    --primary: 25 100% 50%;
-    --primary-foreground: 240 5% 6%;
+    /* Neon Cyan - Primary accent */
+    --primary: 180 100% 50%;
+    --primary-foreground: 225 15% 8%;
 
     /* Dark surface */
-    --secondary: 240 5% 15%;
-    --secondary-foreground: 60 10% 90%;
+    --secondary: 225 15% 18%;
+    --secondary-foreground: 60 10% 95%;
 
-    --muted: 240 5% 12%;
-    --muted-foreground: 240 5% 45%;
+    --muted: 225 15% 15%;
+    --muted-foreground: 225 10% 50%;
 
-    --accent: 200 100% 50%;
-    --accent-foreground: 240 5% 6%;
+    /* Neon Magenta - Secondary accent */
+    --accent: 320 100% 60%;
+    --accent-foreground: 225 15% 8%;
 
-    /* Feedback colors - NES style */
-    --destructive: 0 100% 50%;
+    /* Feedback colors - Neon style */
+    --destructive: 350 100% 55%;
     --destructive-foreground: 60 10% 95%;
 
-    --success: 120 100% 35%;
-    --success-foreground: 240 5% 6%;
+    --success: 140 100% 45%;
+    --success-foreground: 225 15% 8%;
 
-    --border: 240 5% 25%;
-    --input: 240 5% 20%;
-    --ring: 25 100% 50%;
+    --border: 225 15% 25%;
+    --input: 225 15% 20%;
+    --ring: 180 100% 50%;
 
     --radius: 0px;
 
-    /* 8-bit specific tokens - NO HSL FUNCTIONS IN SHADOWS */
-    --pixel-bg: 240 5% 6%;
-    --pixel-surface: 240 5% 12%;
-    --pixel-raised: 240 5% 18%;
-    --pixel-border: 240 5% 30%;
-    --pixel-border-dark: 240 5% 5%;
-    --pixel-highlight: 240 5% 40%;
+    /* Pixel surface tokens */
+    --pixel-bg: 225 15% 8%;
+    --pixel-surface: 225 15% 14%;
+    --pixel-raised: 225 15% 20%;
+    --pixel-border: 225 15% 30%;
+    --pixel-border-dark: 225 15% 6%;
+    --pixel-highlight: 225 15% 35%;
 
-    /* NES color accents */
-    --nes-orange: 25 100% 50%;
-    --nes-yellow: 50 100% 50%;
-    --nes-green: 120 100% 35%;
-    --nes-blue: 200 100% 50%;
-    --nes-red: 0 100% 50%;
-    --nes-white: 60 10% 90%;
-    --nes-black: 240 5% 6%;
+    /* Neon color palette */
+    --neon-cyan: 180 100% 50%;
+    --neon-magenta: 320 100% 60%;
+    --neon-yellow: 55 100% 55%;
+    --neon-green: 140 100% 50%;
+    --neon-orange: 25 100% 55%;
+    --neon-white: 60 10% 95%;
+    --neon-black: 225 15% 8%;
 
-    /* Stage colors - bold, flat */
-    --stage-listen: 200 100% 50%;
-    --stage-guess: 25 100% 50%;
-    --stage-result: 120 100% 35%;
+    /* Stage colors - neon themed */
+    --stage-listen: 180 100% 50%;
+    --stage-guess: 320 100% 60%;
+    --stage-result: 140 100% 50%;
 
     /* Sidebar defaults */
-    --sidebar-background: 240 5% 8%;
-    --sidebar-foreground: 60 10% 90%;
-    --sidebar-primary: 25 100% 50%;
-    --sidebar-primary-foreground: 240 5% 6%;
-    --sidebar-accent: 240 5% 15%;
-    --sidebar-accent-foreground: 60 10% 90%;
-    --sidebar-border: 240 5% 25%;
-    --sidebar-ring: 25 100% 50%;
+    --sidebar-background: 225 15% 10%;
+    --sidebar-foreground: 60 10% 95%;
+    --sidebar-primary: 180 100% 50%;
+    --sidebar-primary-foreground: 225 15% 8%;
+    --sidebar-accent: 225 15% 18%;
+    --sidebar-accent-foreground: 60 10% 95%;
+    --sidebar-border: 225 15% 25%;
+    --sidebar-ring: 180 100% 50%;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-    /* Disable anti-aliasing for true pixel feel */
     image-rendering: pixelated;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Press Start 2P', monospace;
+    font-family: 'ArcadeClassic', 'Press Start 2P', monospace;
     -webkit-font-smoothing: none;
     -moz-osx-font-smoothing: auto;
   }
 
-  /* All text uses pixel font */
+  /* All text uses arcade pixel font */
   h1, h2, h3, h4, h5, h6, p, span, label, button {
-    font-family: 'Press Start 2P', monospace;
+    font-family: 'ArcadeClassic', 'Press Start 2P', monospace;
+    letter-spacing: 0.05em;
   }
 }
 
 @layer components {
-  /* 8-BIT PANEL - Sharp edges, no rounded corners */
+  /* 8-BIT PANEL with neon border accents */
   .pixel-panel {
     background: hsl(var(--pixel-surface));
     border: 4px solid hsl(var(--pixel-border));
@@ -112,8 +117,8 @@
     border-bottom-color: hsl(var(--pixel-border-dark));
     border-right-color: hsl(var(--pixel-border-dark));
     box-shadow: 
-      4px 4px 0 hsl(var(--nes-black)),
-      8px 8px 0 hsl(var(--nes-black) / 0.5);
+      4px 4px 0 hsl(var(--neon-black)),
+      0 0 20px hsl(var(--neon-cyan) / 0.1);
   }
 
   .pixel-panel-inset {
@@ -125,22 +130,25 @@
     border-right-color: hsl(var(--pixel-highlight));
   }
 
-  /* 8-BIT BUTTON - Chunky, pressable, no gradients */
+  /* 8-BIT BUTTON with neon glow */
   .pixel-button {
     @apply relative uppercase;
-    font-family: 'Press Start 2P', monospace;
+    font-family: 'ArcadeClassic', 'Press Start 2P', monospace;
     background: hsl(var(--pixel-raised));
     border: 4px solid hsl(var(--pixel-border));
     border-top-color: hsl(var(--pixel-highlight));
     border-left-color: hsl(var(--pixel-highlight));
     border-bottom-color: hsl(var(--pixel-border-dark));
     border-right-color: hsl(var(--pixel-border-dark));
-    box-shadow: 4px 4px 0 hsl(var(--nes-black));
+    box-shadow: 4px 4px 0 hsl(var(--neon-black));
     transition: none;
   }
 
   .pixel-button:hover:not(:disabled) {
     background: hsl(var(--pixel-surface));
+    box-shadow: 
+      4px 4px 0 hsl(var(--neon-black)),
+      0 0 15px hsl(var(--neon-cyan) / 0.3);
   }
 
   .pixel-button:active:not(:disabled) {
@@ -156,60 +164,87 @@
     @apply opacity-40 cursor-not-allowed;
   }
 
-  /* PRIMARY BUTTON - NES Orange */
+  /* PRIMARY BUTTON - Neon Cyan */
   .pixel-button-primary {
-    background: hsl(var(--nes-orange));
-    color: hsl(var(--nes-black));
-    border-color: hsl(30 80% 30%);
-    border-top-color: hsl(30 100% 65%);
-    border-left-color: hsl(30 100% 65%);
-    border-bottom-color: hsl(30 80% 25%);
-    border-right-color: hsl(30 80% 25%);
+    background: hsl(var(--neon-cyan));
+    color: hsl(var(--neon-black));
+    border-color: hsl(180 80% 30%);
+    border-top-color: hsl(180 100% 70%);
+    border-left-color: hsl(180 100% 70%);
+    border-bottom-color: hsl(180 80% 25%);
+    border-right-color: hsl(180 80% 25%);
   }
 
   .pixel-button-primary:hover:not(:disabled) {
-    background: hsl(30 100% 55%);
+    background: hsl(180 100% 55%);
+    box-shadow: 
+      4px 4px 0 hsl(var(--neon-black)),
+      0 0 25px hsl(var(--neon-cyan) / 0.5);
   }
 
   .pixel-button-primary:active:not(:disabled) {
-    background: hsl(30 90% 40%);
-    border-top-color: hsl(30 80% 25%);
-    border-left-color: hsl(30 80% 25%);
-    border-bottom-color: hsl(30 100% 65%);
-    border-right-color: hsl(30 100% 65%);
+    background: hsl(180 90% 40%);
+    border-top-color: hsl(180 80% 25%);
+    border-left-color: hsl(180 80% 25%);
+    border-bottom-color: hsl(180 100% 70%);
+    border-right-color: hsl(180 100% 70%);
   }
 
-  /* SUCCESS BUTTON - NES Green */
+  /* SUCCESS BUTTON - Neon Green */
   .pixel-button-success {
-    background: hsl(var(--nes-green));
-    color: hsl(var(--nes-white));
-    border-color: hsl(120 80% 20%);
-    border-top-color: hsl(120 100% 45%);
-    border-left-color: hsl(120 100% 45%);
-    border-bottom-color: hsl(120 80% 20%);
-    border-right-color: hsl(120 80% 20%);
+    background: hsl(var(--neon-green));
+    color: hsl(var(--neon-black));
+    border-color: hsl(140 80% 25%);
+    border-top-color: hsl(140 100% 60%);
+    border-left-color: hsl(140 100% 60%);
+    border-bottom-color: hsl(140 80% 20%);
+    border-right-color: hsl(140 80% 20%);
   }
 
   .pixel-button-success:hover:not(:disabled) {
-    background: hsl(120 100% 40%);
+    background: hsl(140 100% 55%);
+    box-shadow: 
+      4px 4px 0 hsl(var(--neon-black)),
+      0 0 25px hsl(var(--neon-green) / 0.5);
   }
 
-  /* NOTE SELECTOR BUTTON */
+  /* MAGENTA BUTTON - Neon Magenta */
+  .pixel-button-magenta {
+    background: hsl(var(--neon-magenta));
+    color: hsl(var(--neon-white));
+    border-color: hsl(320 80% 35%);
+    border-top-color: hsl(320 100% 75%);
+    border-left-color: hsl(320 100% 75%);
+    border-bottom-color: hsl(320 80% 30%);
+    border-right-color: hsl(320 80% 30%);
+  }
+
+  .pixel-button-magenta:hover:not(:disabled) {
+    background: hsl(320 100% 65%);
+    box-shadow: 
+      4px 4px 0 hsl(var(--neon-black)),
+      0 0 25px hsl(var(--neon-magenta) / 0.5);
+  }
+
+  /* NOTE SELECTOR BUTTON with neon accent */
   .pixel-note-button {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
+    font-family: 'ArcadeClassic', 'Press Start 2P', monospace;
+    font-size: 12px;
     background: hsl(var(--pixel-raised));
     border: 3px solid hsl(var(--pixel-border));
     border-top-color: hsl(var(--pixel-highlight));
     border-left-color: hsl(var(--pixel-highlight));
     border-bottom-color: hsl(var(--pixel-border-dark));
     border-right-color: hsl(var(--pixel-border-dark));
-    box-shadow: 3px 3px 0 hsl(var(--nes-black));
+    box-shadow: 3px 3px 0 hsl(var(--neon-black));
     transition: none;
   }
 
   .pixel-note-button:hover:not(:disabled) {
     background: hsl(var(--pixel-surface));
+    box-shadow: 
+      3px 3px 0 hsl(var(--neon-black)),
+      0 0 10px hsl(var(--neon-magenta) / 0.3);
   }
 
   .pixel-note-button:active:not(:disabled) {
@@ -218,16 +253,19 @@
   }
 
   .pixel-note-button-selected {
-    background: hsl(var(--nes-orange));
-    color: hsl(var(--nes-black));
-    border-color: hsl(30 80% 30%);
-    border-top-color: hsl(30 100% 65%);
-    border-left-color: hsl(30 100% 65%);
-    border-bottom-color: hsl(30 80% 25%);
-    border-right-color: hsl(30 80% 25%);
+    background: hsl(var(--neon-magenta));
+    color: hsl(var(--neon-white));
+    border-color: hsl(320 80% 35%);
+    border-top-color: hsl(320 100% 75%);
+    border-left-color: hsl(320 100% 75%);
+    border-bottom-color: hsl(320 80% 30%);
+    border-right-color: hsl(320 80% 30%);
+    box-shadow: 
+      3px 3px 0 hsl(var(--neon-black)),
+      0 0 15px hsl(var(--neon-magenta) / 0.4);
   }
 
-  /* STAGE INDICATOR - 8-bit style */
+  /* STAGE INDICATOR - Neon style */
   .pixel-stage {
     @apply flex items-center justify-center;
     background: hsl(var(--pixel-surface));
@@ -239,54 +277,63 @@
   }
 
   .pixel-stage-active-listen {
-    background: hsl(var(--nes-blue));
-    border-color: hsl(200 80% 30%);
-    border-top-color: hsl(200 100% 65%);
-    border-left-color: hsl(200 100% 65%);
-    border-bottom-color: hsl(200 80% 25%);
-    border-right-color: hsl(200 80% 25%);
+    background: hsl(var(--neon-cyan));
+    border-color: hsl(180 80% 30%);
+    border-top-color: hsl(180 100% 70%);
+    border-left-color: hsl(180 100% 70%);
+    border-bottom-color: hsl(180 80% 25%);
+    border-right-color: hsl(180 80% 25%);
+    box-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.5);
   }
 
   .pixel-stage-active-guess {
-    background: hsl(var(--nes-orange));
-    border-color: hsl(30 80% 30%);
-    border-top-color: hsl(30 100% 65%);
-    border-left-color: hsl(30 100% 65%);
-    border-bottom-color: hsl(30 80% 25%);
-    border-right-color: hsl(30 80% 25%);
+    background: hsl(var(--neon-magenta));
+    border-color: hsl(320 80% 35%);
+    border-top-color: hsl(320 100% 75%);
+    border-left-color: hsl(320 100% 75%);
+    border-bottom-color: hsl(320 80% 30%);
+    border-right-color: hsl(320 80% 30%);
+    box-shadow: 0 0 20px hsl(var(--neon-magenta) / 0.5);
   }
 
   .pixel-stage-active-result {
-    background: hsl(var(--nes-green));
-    border-color: hsl(120 80% 20%);
-    border-top-color: hsl(120 100% 45%);
-    border-left-color: hsl(120 100% 45%);
-    border-bottom-color: hsl(120 80% 20%);
-    border-right-color: hsl(120 80% 20%);
+    background: hsl(var(--neon-green));
+    border-color: hsl(140 80% 25%);
+    border-top-color: hsl(140 100% 60%);
+    border-left-color: hsl(140 100% 60%);
+    border-bottom-color: hsl(140 80% 20%);
+    border-right-color: hsl(140 80% 20%);
+    box-shadow: 0 0 20px hsl(var(--neon-green) / 0.5);
   }
 
-  /* FEEDBACK PANELS */
+  /* FEEDBACK PANELS with neon glow */
   .pixel-feedback-correct {
-    background: hsl(var(--nes-green));
-    border: 4px solid hsl(120 80% 20%);
-    border-top-color: hsl(120 100% 45%);
-    border-left-color: hsl(120 100% 45%);
-    border-bottom-color: hsl(120 80% 20%);
-    border-right-color: hsl(120 80% 20%);
-    box-shadow: 4px 4px 0 hsl(var(--nes-black));
+    background: hsl(var(--neon-green));
+    color: hsl(var(--neon-black));
+    border: 4px solid hsl(140 80% 25%);
+    border-top-color: hsl(140 100% 60%);
+    border-left-color: hsl(140 100% 60%);
+    border-bottom-color: hsl(140 80% 20%);
+    border-right-color: hsl(140 80% 20%);
+    box-shadow: 
+      4px 4px 0 hsl(var(--neon-black)),
+      0 0 30px hsl(var(--neon-green) / 0.4);
   }
 
   .pixel-feedback-incorrect {
-    background: hsl(var(--nes-red));
-    border: 4px solid hsl(0 80% 30%);
-    border-top-color: hsl(0 100% 65%);
-    border-left-color: hsl(0 100% 65%);
-    border-bottom-color: hsl(0 80% 25%);
-    border-right-color: hsl(0 80% 25%);
-    box-shadow: 4px 4px 0 hsl(var(--nes-black));
+    background: hsl(var(--destructive));
+    color: hsl(var(--neon-white));
+    border: 4px solid hsl(350 80% 35%);
+    border-top-color: hsl(350 100% 70%);
+    border-left-color: hsl(350 100% 70%);
+    border-bottom-color: hsl(350 80% 30%);
+    border-right-color: hsl(350 80% 30%);
+    box-shadow: 
+      4px 4px 0 hsl(var(--neon-black)),
+      0 0 30px hsl(var(--destructive) / 0.4);
   }
 
-  /* LOADING BAR - 8-bit style */
+  /* LOADING BAR - Neon style */
   .pixel-loading-bar {
     background: hsl(var(--pixel-bg));
     border: 3px solid hsl(var(--pixel-border-dark));
@@ -297,12 +344,13 @@
   }
 
   .pixel-loading-fill {
-    background: hsl(var(--nes-orange));
+    background: hsl(var(--neon-cyan));
     height: 100%;
     transition: width 0.1s steps(10);
+    box-shadow: 0 0 10px hsl(var(--neon-cyan) / 0.5);
   }
 
-  /* 8-BIT ANIMATIONS - Simple, no smooth transitions */
+  /* 8-BIT ANIMATIONS */
   @keyframes pixel-blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
@@ -313,12 +361,27 @@
     50% { transform: translateY(-8px); }
   }
 
+  @keyframes neon-pulse {
+    0%, 100% { 
+      box-shadow: 0 0 10px currentColor;
+      opacity: 1;
+    }
+    50% { 
+      box-shadow: 0 0 25px currentColor;
+      opacity: 0.9;
+    }
+  }
+
   .pixel-blink {
     animation: pixel-blink 1s steps(2) infinite;
   }
 
   .pixel-bounce {
     animation: pixel-bounce 0.5s steps(4) infinite;
+  }
+
+  .neon-pulse {
+    animation: neon-pulse 2s ease-in-out infinite;
   }
 
   /* Scanline effect for CRT feel */
@@ -330,25 +393,50 @@
       0deg,
       transparent,
       transparent 2px,
-      hsl(var(--nes-black) / 0.1) 2px,
-      hsl(var(--nes-black) / 0.1) 4px
+      hsl(var(--neon-black) / 0.15) 2px,
+      hsl(var(--neon-black) / 0.15) 4px
     );
     pointer-events: none;
+  }
+
+  /* Neon text glow */
+  .neon-text-cyan {
+    color: hsl(var(--neon-cyan));
+    text-shadow: 
+      0 0 5px hsl(var(--neon-cyan)),
+      0 0 10px hsl(var(--neon-cyan) / 0.5);
+  }
+
+  .neon-text-magenta {
+    color: hsl(var(--neon-magenta));
+    text-shadow: 
+      0 0 5px hsl(var(--neon-magenta)),
+      0 0 10px hsl(var(--neon-magenta) / 0.5);
+  }
+
+  .neon-text-green {
+    color: hsl(var(--neon-green));
+    text-shadow: 
+      0 0 5px hsl(var(--neon-green)),
+      0 0 10px hsl(var(--neon-green) / 0.5);
+  }
+
+  .neon-text-yellow {
+    color: hsl(var(--neon-yellow));
+    text-shadow: 
+      0 0 5px hsl(var(--neon-yellow)),
+      0 0 10px hsl(var(--neon-yellow) / 0.5);
   }
 }
 
 @layer utilities {
   .font-pixel {
-    font-family: 'Press Start 2P', monospace;
-  }
-
-  .font-retro {
-    font-family: 'VT323', monospace;
+    font-family: 'ArcadeClassic', 'Press Start 2P', monospace;
   }
 
   /* Text shadow for 8-bit depth */
   .pixel-shadow {
-    text-shadow: 2px 2px 0 hsl(var(--nes-black));
+    text-shadow: 2px 2px 0 hsl(var(--neon-black));
   }
 
   /* Disable smooth rendering for true pixel look */

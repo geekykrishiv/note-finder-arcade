@@ -8,10 +8,11 @@ export function LoadingScreen({ progress }: LoadingScreenProps) {
       <div className="text-center space-y-8">
         {/* Title */}
         <div className="space-y-2">
-          <h1 className="text-sm sm:text-base text-foreground pixel-shadow">
-            EAR<span className="text-primary">TRAINING</span>
+          <h1 className="text-base sm:text-lg pixel-shadow">
+            <span className="neon-text-cyan">EAR</span>
+            <span className="neon-text-magenta">TRAINING</span>
           </h1>
-          <p className="text-[8px] sm:text-[10px] text-muted-foreground">
+          <p className="text-xs sm:text-sm text-muted-foreground neon-text-yellow">
             ARCADE
           </p>
         </div>

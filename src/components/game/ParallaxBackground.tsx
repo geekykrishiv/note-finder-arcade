@@ -4,17 +4,12 @@ interface ParallaxBackgroundProps {
   children: React.ReactNode;
 }
 
-// 8-bit pixel art shapes as CSS
+// 8-bit pixel art shapes
 const PIXEL_SHAPES = [
-  // Music note
   { type: 'note', size: 24 },
-  // Star
   { type: 'star', size: 16 },
-  // Diamond
   { type: 'diamond', size: 20 },
-  // Square
   { type: 'square', size: 12 },
-  // Cross
   { type: 'cross', size: 14 },
 ];
 
@@ -23,9 +18,8 @@ interface FloatingElement {
   x: number;
   y: number;
   shape: typeof PIXEL_SHAPES[0];
-  layer: number; // 1-3 for parallax depth
-  baseX: number;
-  baseY: number;
+  layer: number;
+  colorIndex: number;
 }
 
 export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
@@ -35,7 +29,7 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
   // Generate random floating elements
   const floatingElements = useMemo<FloatingElement[]>(() => {
     const elements: FloatingElement[] = [];
-    const count = 20;
+    const count = 25;
 
     for (let i = 0; i < count; i++) {
       const shape = PIXEL_SHAPES[Math.floor(Math.random() * PIXEL_SHAPES.length)];
@@ -43,10 +37,9 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
-        baseX: Math.random() * 100,
-        baseY: Math.random() * 100,
         shape,
         layer: Math.floor(Math.random() * 3) + 1,
+        colorIndex: Math.floor(Math.random() * 4),
       });
     }
     return elements;
@@ -76,25 +69,35 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
   }, []);
 
   // Calculate parallax offsets - MORE VISIBLE movement
-  const offsetX = (mousePosition.x - 0.5) * 60;
-  const offsetY = (mousePosition.y - 0.5) * 60;
+  const offsetX = (mousePosition.x - 0.5) * 80;
+  const offsetY = (mousePosition.y - 0.5) * 80;
 
   return (
     <div ref={containerRef} className="relative min-h-screen overflow-hidden bg-background">
-      {/* Pixel grid pattern - Layer 1 (slowest) */}
+      {/* Neon grid pattern - Layer 1 (slowest) */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          transform: `translate(${offsetX * 0.2}px, ${offsetY * 0.2}px)`,
+          transform: `translate(${offsetX * 0.15}px, ${offsetY * 0.15}px)`,
         }}
       >
+        {/* Grid lines - horizontal */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(0deg, hsl(var(--neon-cyan) / 0.08) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(var(--neon-cyan) / 0.08) 1px, transparent 1px)
+            `,
+            backgroundSize: '48px 48px',
+          }}
+        />
         {/* Grid dots */}
         <div 
           className="absolute inset-0"
           style={{
-            backgroundImage: `radial-gradient(circle, hsl(var(--pixel-border)) 2px, transparent 2px)`,
-            backgroundSize: '32px 32px',
-            opacity: 0.3,
+            backgroundImage: `radial-gradient(circle, hsl(var(--neon-magenta) / 0.2) 2px, transparent 2px)`,
+            backgroundSize: '48px 48px',
           }}
         />
       </div>
@@ -103,11 +106,11 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          transform: `translate(${offsetX * 0.3}px, ${offsetY * 0.3}px)`,
+          transform: `translate(${offsetX * 0.25}px, ${offsetY * 0.25}px)`,
         }}
       >
         {floatingElements.filter(e => e.layer === 1).map(element => (
-          <PixelShape key={element.id} element={element} opacity={0.15} />
+          <PixelShape key={element.id} element={element} opacity={0.2} />
         ))}
       </div>
 
@@ -115,11 +118,11 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          transform: `translate(${offsetX * 0.6}px, ${offsetY * 0.6}px)`,
+          transform: `translate(${offsetX * 0.5}px, ${offsetY * 0.5}px)`,
         }}
       >
         {floatingElements.filter(e => e.layer === 2).map(element => (
-          <PixelShape key={element.id} element={element} opacity={0.25} />
+          <PixelShape key={element.id} element={element} opacity={0.35} />
         ))}
       </div>
 
@@ -131,11 +134,11 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
         }}
       >
         {floatingElements.filter(e => e.layer === 3).map(element => (
-          <PixelShape key={element.id} element={element} opacity={0.35} />
+          <PixelShape key={element.id} element={element} opacity={0.5} />
         ))}
       </div>
 
-      {/* Scanline overlay */}
+      {/* Scanline overlay - subtle CRT effect */}
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -143,9 +146,17 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
             0deg,
             transparent,
             transparent 2px,
-            hsl(var(--nes-black) / 0.05) 2px,
-            hsl(var(--nes-black) / 0.05) 4px
+            hsl(var(--neon-black) / 0.08) 2px,
+            hsl(var(--neon-black) / 0.08) 4px
           )`,
+        }}
+      />
+
+      {/* Vignette effect */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at center, transparent 50%, hsl(var(--neon-black) / 0.4) 100%)`,
         }}
       />
 
@@ -157,22 +168,25 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
   );
 }
 
+// Neon color palette for shapes
+const NEON_COLORS = [
+  'hsl(180, 100%, 50%)',   // Cyan
+  'hsl(320, 100%, 60%)',   // Magenta
+  'hsl(140, 100%, 50%)',   // Green
+  'hsl(55, 100%, 55%)',    // Yellow
+];
+
 // Individual pixel shape component
 function PixelShape({ element, opacity }: { element: FloatingElement; opacity: number }) {
-  const { x, y, shape } = element;
-  const colors = [
-    'hsl(var(--nes-orange))',
-    'hsl(var(--nes-blue))',
-    'hsl(var(--nes-green))',
-    'hsl(var(--nes-yellow))',
-  ];
-  const color = colors[element.id % colors.length];
+  const { x, y, shape, colorIndex } = element;
+  const color = NEON_COLORS[colorIndex];
 
   const style: React.CSSProperties = {
     position: 'absolute',
     left: `${x}%`,
     top: `${y}%`,
     opacity,
+    filter: `drop-shadow(0 0 6px ${color})`,
   };
 
   switch (shape.type) {
