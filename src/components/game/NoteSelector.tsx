@@ -7,9 +7,9 @@ interface NoteSelectorProps {
   disabled?: boolean;
 }
 
-// Group notes for visual layout - natural and accidentals
+// Group notes for visual layout - natural and accidentals (FLATS)
 const naturalNotes: NoteName[] = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-const accidentalNotes: NoteName[] = ['C#', 'D#', 'F#', 'G#', 'A#'];
+const accidentalNotes: NoteName[] = ['Db', 'Eb', 'Gb', 'Ab', 'Bb'];
 
 export function NoteSelector({ selectedNote, onSelectNote, disabled }: NoteSelectorProps) {
   return (
@@ -36,7 +36,7 @@ export function NoteSelector({ selectedNote, onSelectNote, disabled }: NoteSelec
         ))}
       </div>
 
-      {/* Accidental notes (sharps) */}
+      {/* Accidental notes (flats) */}
       <div className="grid grid-cols-5 gap-2 px-4 sm:px-6">
         {accidentalNotes.map((note) => (
           <button

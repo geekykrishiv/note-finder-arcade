@@ -86,8 +86,8 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(0deg, hsl(var(--neon-cyan) / 0.08) 1px, transparent 1px),
-              linear-gradient(90deg, hsl(var(--neon-cyan) / 0.08) 1px, transparent 1px)
+              linear-gradient(0deg, hsl(var(--soul-cyan) / 0.06) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(var(--soul-cyan) / 0.06) 1px, transparent 1px)
             `,
             backgroundSize: '48px 48px',
           }}
@@ -96,7 +96,7 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
         <div 
           className="absolute inset-0"
           style={{
-            backgroundImage: `radial-gradient(circle, hsl(var(--neon-magenta) / 0.2) 2px, transparent 2px)`,
+            backgroundImage: `radial-gradient(circle, hsl(var(--soul-magenta) / 0.15) 2px, transparent 2px)`,
             backgroundSize: '48px 48px',
           }}
         />
@@ -146,8 +146,8 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
             0deg,
             transparent,
             transparent 2px,
-            hsl(var(--neon-black) / 0.08) 2px,
-            hsl(var(--neon-black) / 0.08) 4px
+            hsl(var(--soul-black) / 0.06) 2px,
+            hsl(var(--soul-black) / 0.06) 4px
           )`,
         }}
       />
@@ -156,7 +156,7 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
       <div 
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at center, transparent 50%, hsl(var(--neon-black) / 0.4) 100%)`,
+          background: `radial-gradient(ellipse at center, transparent 50%, hsl(var(--soul-black) / 0.5) 100%)`,
         }}
       />
 
@@ -168,18 +168,18 @@ export function ParallaxBackground({ children }: ParallaxBackgroundProps) {
   );
 }
 
-// Neon color palette for shapes
-const NEON_COLORS = [
-  'hsl(180, 100%, 50%)',   // Cyan
-  'hsl(320, 100%, 60%)',   // Magenta
-  'hsl(140, 100%, 50%)',   // Green
-  'hsl(55, 100%, 55%)',    // Yellow
+// Muted color palette for shapes - Soulbound inspired
+const SOUL_COLORS = [
+  'hsl(185, 65%, 55%)',    // Soft Cyan
+  'hsl(320, 55%, 55%)',    // Muted Magenta
+  'hsl(145, 50%, 50%)',    // Desaturated Green
+  'hsl(35, 75%, 55%)',     // Warm Amber
 ];
 
 // Individual pixel shape component
 function PixelShape({ element, opacity }: { element: FloatingElement; opacity: number }) {
   const { x, y, shape, colorIndex } = element;
-  const color = NEON_COLORS[colorIndex];
+  const color = SOUL_COLORS[colorIndex];
 
   const style: React.CSSProperties = {
     position: 'absolute',

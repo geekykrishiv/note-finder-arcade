@@ -1,16 +1,15 @@
 import { useCallback, useRef, useEffect, useState } from 'react';
 import JSZip from 'jszip';
 
-// Note names for mapping
-const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'] as const;
+// Note names for mapping - using FLATS (matches the sample file naming)
+const NOTE_NAMES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'] as const;
 
 export type NoteName = typeof NOTE_NAMES[number];
 
 // Map from our note names to the sample file naming convention
-// Samples use lowercase: c1, cs1 (sharp), d1, ds1, e1, f1, fs1, g1, gs1, a0, as0, b0, etc.
+// Samples use format: C4.mp3, Db4.mp3, D4.mp3, Eb4.mp3, etc.
 function getNoteFileName(note: NoteName, octave: number): string {
-  const noteStr = note.toLowerCase().replace('#', 's');
-  return `${noteStr}${octave}`;
+  return `${note}${octave}`;
 }
 
 interface UseAudioReturn {
@@ -27,8 +26,8 @@ let isPreloading = false;
 let preloadProgress = 0;
 let zipSamples: Map<string, ArrayBuffer> | null = null;
 
-// Octaves available in the sample set (1-7)
-const SAMPLE_OCTAVES = [1, 2, 3, 4, 5, 6, 7];
+// Octaves available in the sample set (0-7)
+const SAMPLE_OCTAVES = [0, 1, 2, 3, 4, 5, 6, 7];
 
 export function useAudio(): UseAudioReturn {
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -52,12 +51,12 @@ export function useAudio(): UseAudioReturn {
   const loadZipSamples = useCallback(async (): Promise<Map<string, ArrayBuffer>> => {
     if (zipSamples) return zipSamples;
 
-    const response = await fetch('/audio/piano-samples.zip');
+    const response = await fetch('/audio/piano-mp3.zip');
     const zipData = await response.arrayBuffer();
     const zip = await JSZip.loadAsync(zipData);
     
     const samples = new Map<string, ArrayBuffer>();
-    const files = Object.keys(zip.files).filter(name => name.endsWith('.ogg'));
+    const files = Object.keys(zip.files).filter(name => name.endsWith('.mp3'));
     
     let loaded = 0;
     const total = files.length;
@@ -65,10 +64,14 @@ export function useAudio(): UseAudioReturn {
     for (const fileName of files) {
       const file = zip.files[fileName];
       if (!file.dir) {
-        // Extract note name from filename like "448619__tedagame__d5.ogg.ogg"
-        const match = fileName.match(/__([a-g]s?\d)\.ogg/i);
+        // Extract note name from filename like "C4.mp3", "Db4.mp3", etc.
+        // The filename may include a path, so get just the base name
+        const baseName = fileName.split('/').pop() || fileName;
+        const match = baseName.match(/^([A-G]b?)(\d)\.mp3$/i);
         if (match) {
-          const noteKey = match[1].toLowerCase();
+          const noteName = match[1].charAt(0).toUpperCase() + match[1].slice(1).toLowerCase();
+          const octave = match[2];
+          const noteKey = `${noteName}${octave}`;
           const arrayBuffer = await file.async('arraybuffer');
           samples.set(noteKey, arrayBuffer);
         }

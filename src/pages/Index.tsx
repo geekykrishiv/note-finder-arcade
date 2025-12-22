@@ -10,6 +10,7 @@ import {
   GameStats,
   ParallaxBackground,
   LoadingScreen,
+  DifficultySelector,
 } from '@/components/game';
 import { cn } from '@/lib/utils';
 
@@ -22,6 +23,7 @@ const Index = () => {
     selectOctave,
     submitGuess,
     nextRound,
+    setDifficulty,
     canSubmit,
     canReplay,
     minOctave,
@@ -85,15 +87,15 @@ const Index = () => {
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Pixel music icon */}
             <div className="pixel-panel-inset w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="hsl(180, 100%, 50%)" className="sm:w-5 sm:h-5">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="hsl(var(--primary))" className="sm:w-5 sm:h-5">
                 <rect x="10" y="1" width="3" height="10" />
                 <rect x="2" y="9" width="8" height="2" />
                 <rect x="0" y="11" width="6" height="4" />
               </svg>
             </div>
             <h1 className="text-[10px] sm:text-xs pixel-shadow">
-              <span className="neon-text-cyan">EAR</span>
-              <span className="neon-text-magenta">TRAINING</span>
+              <span className="text-primary">EAR</span>
+              <span className="text-accent">TRAINING</span>
             </h1>
           </div>
           <GameStats
@@ -101,6 +103,15 @@ const Index = () => {
             correctRounds={state.correctRounds}
           />
         </header>
+
+        {/* Difficulty Selector - Always visible */}
+        <div className="flex justify-center px-3 sm:px-4 pb-2">
+          <DifficultySelector
+            difficulty={state.difficulty}
+            onSelectDifficulty={setDifficulty}
+            disabled={state.stage !== 'listen'}
+          />
+        </div>
 
         {/* Main Game Area */}
         <main className="flex-1 flex items-center justify-center p-3 sm:p-4">
@@ -193,7 +204,7 @@ const Index = () => {
         {/* Footer */}
         <footer className="p-3 sm:p-4 text-center">
           <p className="text-[6px] sm:text-[8px] text-muted-foreground">
-            SINGLE NOTE MODE • OCTAVES {minOctave}-{maxOctave}
+            SINGLE NOTE MODE • {state.difficulty.toUpperCase()} • OCTAVES {minOctave}-{maxOctave}
           </p>
         </footer>
       </div>
