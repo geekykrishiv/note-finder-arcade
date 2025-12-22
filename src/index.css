@@ -8,82 +8,87 @@
 /* Fallback Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-/* Ear Training Arcade - DARK NEON THEME
-   Dark charcoal base with playful neon accents
-   8-bit pixel aesthetic with arcade cabinet vibes
+/* Ear Training Arcade - SOULBOUND INSPIRED THEME
+   Deep charcoal + dark blues with muted, atmospheric accents
+   8-bit pixel aesthetic with a soft, moody arcade vibe
 */
 
 @layer base {
   :root {
-    /* Dark charcoal base - NOT pure black */
-    --background: 225 15% 10%;
-    --foreground: 60 10% 95%;
+    /* Deep charcoal/blue-black base - Soulbound inspired */
+    --background: 225 25% 7%;
+    --foreground: 45 20% 90%;
 
-    --card: 225 15% 13%;
-    --card-foreground: 60 10% 95%;
+    --card: 225 25% 10%;
+    --card-foreground: 45 20% 90%;
 
-    --popover: 225 15% 13%;
-    --popover-foreground: 60 10% 95%;
+    --popover: 225 25% 10%;
+    --popover-foreground: 45 20% 90%;
 
-    /* Neon Cyan - Primary accent */
-    --primary: 180 100% 50%;
-    --primary-foreground: 225 15% 8%;
+    /* Soft Cyan - Primary accent (muted from pure neon) */
+    --primary: 185 65% 55%;
+    --primary-foreground: 225 25% 7%;
 
-    /* Dark surface */
-    --secondary: 225 15% 18%;
-    --secondary-foreground: 60 10% 95%;
+    /* Dark blue surface */
+    --secondary: 225 30% 15%;
+    --secondary-foreground: 45 20% 90%;
 
-    --muted: 225 15% 15%;
-    --muted-foreground: 225 10% 50%;
+    --muted: 225 25% 12%;
+    --muted-foreground: 225 15% 45%;
 
-    /* Neon Magenta - Secondary accent */
-    --accent: 320 100% 60%;
-    --accent-foreground: 225 15% 8%;
+    /* Muted Magenta - Secondary accent */
+    --accent: 320 55% 55%;
+    --accent-foreground: 225 25% 7%;
 
-    /* Feedback colors - Neon style */
-    --destructive: 350 100% 55%;
-    --destructive-foreground: 60 10% 95%;
+    /* Feedback colors - Softer tones */
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 45 20% 90%;
 
-    --success: 140 100% 45%;
-    --success-foreground: 225 15% 8%;
+    --success: 145 55% 45%;
+    --success-foreground: 225 25% 7%;
 
-    --border: 225 15% 25%;
-    --input: 225 15% 20%;
-    --ring: 180 100% 50%;
+    --border: 225 25% 20%;
+    --input: 225 25% 15%;
+    --ring: 185 65% 55%;
 
     --radius: 0px;
 
-    /* Pixel surface tokens */
-    --pixel-bg: 225 15% 8%;
-    --pixel-surface: 225 15% 14%;
-    --pixel-raised: 225 15% 20%;
-    --pixel-border: 225 15% 30%;
-    --pixel-border-dark: 225 15% 6%;
-    --pixel-highlight: 225 15% 35%;
+    /* Pixel surface tokens - atmospheric darks */
+    --pixel-bg: 225 25% 5%;
+    --pixel-surface: 225 28% 11%;
+    --pixel-raised: 225 25% 16%;
+    --pixel-border: 225 20% 25%;
+    --pixel-border-dark: 225 30% 4%;
+    --pixel-highlight: 225 18% 30%;
 
-    /* Neon color palette */
-    --neon-cyan: 180 100% 50%;
-    --neon-magenta: 320 100% 60%;
-    --neon-yellow: 55 100% 55%;
-    --neon-green: 140 100% 50%;
-    --neon-orange: 25 100% 55%;
-    --neon-white: 60 10% 95%;
-    --neon-black: 225 15% 8%;
+    /* Muted color palette - Soulbound inspired */
+    --soul-cyan: 185 65% 55%;
+    --soul-magenta: 320 55% 55%;
+    --soul-amber: 35 75% 55%;
+    --soul-green: 145 50% 50%;
+    --soul-purple: 260 45% 50%;
+    --soul-white: 45 20% 90%;
+    --soul-black: 225 25% 5%;
 
-    /* Stage colors - neon themed */
-    --stage-listen: 180 100% 50%;
-    --stage-guess: 320 100% 60%;
-    --stage-result: 140 100% 50%;
+    /* Stage colors - muted theme */
+    --stage-listen: 185 65% 55%;
+    --stage-guess: 320 55% 55%;
+    --stage-result: 145 55% 50%;
+
+    /* Difficulty colors */
+    --difficulty-easy: 145 55% 50%;
+    --difficulty-medium: 35 75% 55%;
+    --difficulty-hard: 0 65% 55%;
 
     /* Sidebar defaults */
-    --sidebar-background: 225 15% 10%;
-    --sidebar-foreground: 60 10% 95%;
-    --sidebar-primary: 180 100% 50%;
-    --sidebar-primary-foreground: 225 15% 8%;
-    --sidebar-accent: 225 15% 18%;
-    --sidebar-accent-foreground: 60 10% 95%;
-    --sidebar-border: 225 15% 25%;
-    --sidebar-ring: 180 100% 50%;
+    --sidebar-background: 225 25% 7%;
+    --sidebar-foreground: 45 20% 90%;
+    --sidebar-primary: 185 65% 55%;
+    --sidebar-primary-foreground: 225 25% 7%;
+    --sidebar-accent: 225 30% 15%;
+    --sidebar-accent-foreground: 45 20% 90%;
+    --sidebar-border: 225 25% 20%;
+    --sidebar-ring: 185 65% 55%;
   }
 }
 
@@ -108,7 +113,7 @@
 }
 
 @layer components {
-  /* 8-BIT PANEL with neon border accents */
+  /* 8-BIT PANEL with subtle glow */
   .pixel-panel {
     background: hsl(var(--pixel-surface));
     border: 4px solid hsl(var(--pixel-border));
@@ -117,8 +122,8 @@
     border-bottom-color: hsl(var(--pixel-border-dark));
     border-right-color: hsl(var(--pixel-border-dark));
     box-shadow: 
-      4px 4px 0 hsl(var(--neon-black)),
-      0 0 20px hsl(var(--neon-cyan) / 0.1);
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 30px hsl(var(--soul-cyan) / 0.08);
   }
 
   .pixel-panel-inset {
@@ -130,7 +135,7 @@
     border-right-color: hsl(var(--pixel-highlight));
   }
 
-  /* 8-BIT BUTTON with neon glow */
+  /* 8-BIT BUTTON with soft glow */
   .pixel-button {
     @apply relative uppercase;
     font-family: 'ArcadeClassic', 'Press Start 2P', monospace;
@@ -140,15 +145,15 @@
     border-left-color: hsl(var(--pixel-highlight));
     border-bottom-color: hsl(var(--pixel-border-dark));
     border-right-color: hsl(var(--pixel-border-dark));
-    box-shadow: 4px 4px 0 hsl(var(--neon-black));
+    box-shadow: 4px 4px 0 hsl(var(--soul-black));
     transition: none;
   }
 
   .pixel-button:hover:not(:disabled) {
     background: hsl(var(--pixel-surface));
     box-shadow: 
-      4px 4px 0 hsl(var(--neon-black)),
-      0 0 15px hsl(var(--neon-cyan) / 0.3);
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 15px hsl(var(--soul-cyan) / 0.2);
   }
 
   .pixel-button:active:not(:disabled) {
@@ -164,69 +169,69 @@
     @apply opacity-40 cursor-not-allowed;
   }
 
-  /* PRIMARY BUTTON - Neon Cyan */
+  /* PRIMARY BUTTON - Soft Cyan */
   .pixel-button-primary {
-    background: hsl(var(--neon-cyan));
-    color: hsl(var(--neon-black));
-    border-color: hsl(180 80% 30%);
-    border-top-color: hsl(180 100% 70%);
-    border-left-color: hsl(180 100% 70%);
-    border-bottom-color: hsl(180 80% 25%);
-    border-right-color: hsl(180 80% 25%);
+    background: hsl(var(--soul-cyan));
+    color: hsl(var(--soul-black));
+    border-color: hsl(185 50% 35%);
+    border-top-color: hsl(185 65% 70%);
+    border-left-color: hsl(185 65% 70%);
+    border-bottom-color: hsl(185 50% 30%);
+    border-right-color: hsl(185 50% 30%);
   }
 
   .pixel-button-primary:hover:not(:disabled) {
-    background: hsl(180 100% 55%);
+    background: hsl(185 65% 60%);
     box-shadow: 
-      4px 4px 0 hsl(var(--neon-black)),
-      0 0 25px hsl(var(--neon-cyan) / 0.5);
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 20px hsl(var(--soul-cyan) / 0.35);
   }
 
   .pixel-button-primary:active:not(:disabled) {
-    background: hsl(180 90% 40%);
-    border-top-color: hsl(180 80% 25%);
-    border-left-color: hsl(180 80% 25%);
-    border-bottom-color: hsl(180 100% 70%);
-    border-right-color: hsl(180 100% 70%);
+    background: hsl(185 60% 45%);
+    border-top-color: hsl(185 50% 30%);
+    border-left-color: hsl(185 50% 30%);
+    border-bottom-color: hsl(185 65% 70%);
+    border-right-color: hsl(185 65% 70%);
   }
 
-  /* SUCCESS BUTTON - Neon Green */
+  /* SUCCESS BUTTON - Muted Green */
   .pixel-button-success {
-    background: hsl(var(--neon-green));
-    color: hsl(var(--neon-black));
-    border-color: hsl(140 80% 25%);
-    border-top-color: hsl(140 100% 60%);
-    border-left-color: hsl(140 100% 60%);
-    border-bottom-color: hsl(140 80% 20%);
-    border-right-color: hsl(140 80% 20%);
+    background: hsl(var(--soul-green));
+    color: hsl(var(--soul-black));
+    border-color: hsl(145 40% 30%);
+    border-top-color: hsl(145 50% 60%);
+    border-left-color: hsl(145 50% 60%);
+    border-bottom-color: hsl(145 40% 25%);
+    border-right-color: hsl(145 40% 25%);
   }
 
   .pixel-button-success:hover:not(:disabled) {
-    background: hsl(140 100% 55%);
+    background: hsl(145 55% 55%);
     box-shadow: 
-      4px 4px 0 hsl(var(--neon-black)),
-      0 0 25px hsl(var(--neon-green) / 0.5);
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 20px hsl(var(--soul-green) / 0.35);
   }
 
-  /* MAGENTA BUTTON - Neon Magenta */
+  /* MAGENTA BUTTON - Muted Magenta */
   .pixel-button-magenta {
-    background: hsl(var(--neon-magenta));
-    color: hsl(var(--neon-white));
-    border-color: hsl(320 80% 35%);
-    border-top-color: hsl(320 100% 75%);
-    border-left-color: hsl(320 100% 75%);
-    border-bottom-color: hsl(320 80% 30%);
-    border-right-color: hsl(320 80% 30%);
+    background: hsl(var(--soul-magenta));
+    color: hsl(var(--soul-white));
+    border-color: hsl(320 45% 35%);
+    border-top-color: hsl(320 55% 70%);
+    border-left-color: hsl(320 55% 70%);
+    border-bottom-color: hsl(320 45% 30%);
+    border-right-color: hsl(320 45% 30%);
   }
 
   .pixel-button-magenta:hover:not(:disabled) {
-    background: hsl(320 100% 65%);
+    background: hsl(320 55% 60%);
     box-shadow: 
-      4px 4px 0 hsl(var(--neon-black)),
-      0 0 25px hsl(var(--neon-magenta) / 0.5);
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 20px hsl(var(--soul-magenta) / 0.35);
   }
 
-  /* NOTE SELECTOR BUTTON with neon accent */
+  /* NOTE SELECTOR BUTTON */
   .pixel-note-button {
     font-family: 'ArcadeClassic', 'Press Start 2P', monospace;
     font-size: 12px;
@@ -236,15 +241,15 @@
     border-left-color: hsl(var(--pixel-highlight));
     border-bottom-color: hsl(var(--pixel-border-dark));
     border-right-color: hsl(var(--pixel-border-dark));
-    box-shadow: 3px 3px 0 hsl(var(--neon-black));
+    box-shadow: 3px 3px 0 hsl(var(--soul-black));
     transition: none;
   }
 
   .pixel-note-button:hover:not(:disabled) {
     background: hsl(var(--pixel-surface));
     box-shadow: 
-      3px 3px 0 hsl(var(--neon-black)),
-      0 0 10px hsl(var(--neon-magenta) / 0.3);
+      3px 3px 0 hsl(var(--soul-black)),
+      0 0 10px hsl(var(--soul-magenta) / 0.2);
   }
 
   .pixel-note-button:active:not(:disabled) {
@@ -253,19 +258,80 @@
   }
 
   .pixel-note-button-selected {
-    background: hsl(var(--neon-magenta));
-    color: hsl(var(--neon-white));
-    border-color: hsl(320 80% 35%);
-    border-top-color: hsl(320 100% 75%);
-    border-left-color: hsl(320 100% 75%);
-    border-bottom-color: hsl(320 80% 30%);
-    border-right-color: hsl(320 80% 30%);
+    background: hsl(var(--soul-magenta));
+    color: hsl(var(--soul-white));
+    border-color: hsl(320 45% 35%);
+    border-top-color: hsl(320 55% 70%);
+    border-left-color: hsl(320 55% 70%);
+    border-bottom-color: hsl(320 45% 30%);
+    border-right-color: hsl(320 45% 30%);
     box-shadow: 
-      3px 3px 0 hsl(var(--neon-black)),
-      0 0 15px hsl(var(--neon-magenta) / 0.4);
+      3px 3px 0 hsl(var(--soul-black)),
+      0 0 12px hsl(var(--soul-magenta) / 0.3);
   }
 
-  /* STAGE INDICATOR - Neon style */
+  /* DIFFICULTY SELECTOR BUTTON */
+  .pixel-difficulty-button {
+    font-family: 'ArcadeClassic', 'Press Start 2P', monospace;
+    background: hsl(var(--pixel-raised));
+    border: 3px solid hsl(var(--pixel-border));
+    border-top-color: hsl(var(--pixel-highlight));
+    border-left-color: hsl(var(--pixel-highlight));
+    border-bottom-color: hsl(var(--pixel-border-dark));
+    border-right-color: hsl(var(--pixel-border-dark));
+    box-shadow: 3px 3px 0 hsl(var(--soul-black));
+    transition: none;
+  }
+
+  .pixel-difficulty-button:hover:not(:disabled) {
+    background: hsl(var(--pixel-surface));
+  }
+
+  .pixel-difficulty-button:active:not(:disabled) {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+
+  .difficulty-easy-selected {
+    background: hsl(var(--difficulty-easy));
+    color: hsl(var(--soul-black));
+    border-color: hsl(145 40% 30%);
+    border-top-color: hsl(145 50% 60%);
+    border-left-color: hsl(145 50% 60%);
+    border-bottom-color: hsl(145 40% 25%);
+    border-right-color: hsl(145 40% 25%);
+    box-shadow: 
+      3px 3px 0 hsl(var(--soul-black)),
+      0 0 12px hsl(var(--difficulty-easy) / 0.3);
+  }
+
+  .difficulty-medium-selected {
+    background: hsl(var(--difficulty-medium));
+    color: hsl(var(--soul-black));
+    border-color: hsl(35 60% 35%);
+    border-top-color: hsl(35 75% 65%);
+    border-left-color: hsl(35 75% 65%);
+    border-bottom-color: hsl(35 60% 30%);
+    border-right-color: hsl(35 60% 30%);
+    box-shadow: 
+      3px 3px 0 hsl(var(--soul-black)),
+      0 0 12px hsl(var(--difficulty-medium) / 0.3);
+  }
+
+  .difficulty-hard-selected {
+    background: hsl(var(--difficulty-hard));
+    color: hsl(var(--soul-white));
+    border-color: hsl(0 55% 35%);
+    border-top-color: hsl(0 65% 65%);
+    border-left-color: hsl(0 65% 65%);
+    border-bottom-color: hsl(0 55% 30%);
+    border-right-color: hsl(0 55% 30%);
+    box-shadow: 
+      3px 3px 0 hsl(var(--soul-black)),
+      0 0 12px hsl(var(--difficulty-hard) / 0.3);
+  }
+
+  /* STAGE INDICATOR */
   .pixel-stage {
     @apply flex items-center justify-center;
     background: hsl(var(--pixel-surface));
@@ -277,63 +343,63 @@
   }
 
   .pixel-stage-active-listen {
-    background: hsl(var(--neon-cyan));
-    border-color: hsl(180 80% 30%);
-    border-top-color: hsl(180 100% 70%);
-    border-left-color: hsl(180 100% 70%);
-    border-bottom-color: hsl(180 80% 25%);
-    border-right-color: hsl(180 80% 25%);
-    box-shadow: 0 0 20px hsl(var(--neon-cyan) / 0.5);
+    background: hsl(var(--soul-cyan));
+    border-color: hsl(185 50% 35%);
+    border-top-color: hsl(185 65% 70%);
+    border-left-color: hsl(185 65% 70%);
+    border-bottom-color: hsl(185 50% 30%);
+    border-right-color: hsl(185 50% 30%);
+    box-shadow: 0 0 15px hsl(var(--soul-cyan) / 0.4);
   }
 
   .pixel-stage-active-guess {
-    background: hsl(var(--neon-magenta));
-    border-color: hsl(320 80% 35%);
-    border-top-color: hsl(320 100% 75%);
-    border-left-color: hsl(320 100% 75%);
-    border-bottom-color: hsl(320 80% 30%);
-    border-right-color: hsl(320 80% 30%);
-    box-shadow: 0 0 20px hsl(var(--neon-magenta) / 0.5);
+    background: hsl(var(--soul-magenta));
+    border-color: hsl(320 45% 35%);
+    border-top-color: hsl(320 55% 70%);
+    border-left-color: hsl(320 55% 70%);
+    border-bottom-color: hsl(320 45% 30%);
+    border-right-color: hsl(320 45% 30%);
+    box-shadow: 0 0 15px hsl(var(--soul-magenta) / 0.4);
   }
 
   .pixel-stage-active-result {
-    background: hsl(var(--neon-green));
-    border-color: hsl(140 80% 25%);
-    border-top-color: hsl(140 100% 60%);
-    border-left-color: hsl(140 100% 60%);
-    border-bottom-color: hsl(140 80% 20%);
-    border-right-color: hsl(140 80% 20%);
-    box-shadow: 0 0 20px hsl(var(--neon-green) / 0.5);
+    background: hsl(var(--soul-green));
+    border-color: hsl(145 40% 30%);
+    border-top-color: hsl(145 50% 60%);
+    border-left-color: hsl(145 50% 60%);
+    border-bottom-color: hsl(145 40% 25%);
+    border-right-color: hsl(145 40% 25%);
+    box-shadow: 0 0 15px hsl(var(--soul-green) / 0.4);
   }
 
-  /* FEEDBACK PANELS with neon glow */
+  /* FEEDBACK PANELS with soft glow */
   .pixel-feedback-correct {
-    background: hsl(var(--neon-green));
-    color: hsl(var(--neon-black));
-    border: 4px solid hsl(140 80% 25%);
-    border-top-color: hsl(140 100% 60%);
-    border-left-color: hsl(140 100% 60%);
-    border-bottom-color: hsl(140 80% 20%);
-    border-right-color: hsl(140 80% 20%);
+    background: hsl(var(--soul-green));
+    color: hsl(var(--soul-black));
+    border: 4px solid hsl(145 40% 30%);
+    border-top-color: hsl(145 50% 60%);
+    border-left-color: hsl(145 50% 60%);
+    border-bottom-color: hsl(145 40% 25%);
+    border-right-color: hsl(145 40% 25%);
     box-shadow: 
-      4px 4px 0 hsl(var(--neon-black)),
-      0 0 30px hsl(var(--neon-green) / 0.4);
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 25px hsl(var(--soul-green) / 0.3);
   }
 
   .pixel-feedback-incorrect {
     background: hsl(var(--destructive));
-    color: hsl(var(--neon-white));
-    border: 4px solid hsl(350 80% 35%);
-    border-top-color: hsl(350 100% 70%);
-    border-left-color: hsl(350 100% 70%);
-    border-bottom-color: hsl(350 80% 30%);
-    border-right-color: hsl(350 80% 30%);
+    color: hsl(var(--soul-white));
+    border: 4px solid hsl(0 55% 35%);
+    border-top-color: hsl(0 65% 65%);
+    border-left-color: hsl(0 65% 65%);
+    border-bottom-color: hsl(0 55% 30%);
+    border-right-color: hsl(0 55% 30%);
     box-shadow: 
-      4px 4px 0 hsl(var(--neon-black)),
-      0 0 30px hsl(var(--destructive) / 0.4);
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 25px hsl(var(--destructive) / 0.3);
   }
 
-  /* LOADING BAR - Neon style */
+  /* LOADING BAR */
   .pixel-loading-bar {
     background: hsl(var(--pixel-bg));
     border: 3px solid hsl(var(--pixel-border-dark));
@@ -344,10 +410,10 @@
   }
 
   .pixel-loading-fill {
-    background: hsl(var(--neon-cyan));
+    background: hsl(var(--soul-cyan));
     height: 100%;
     transition: width 0.1s steps(10);
-    box-shadow: 0 0 10px hsl(var(--neon-cyan) / 0.5);
+    box-shadow: 0 0 8px hsl(var(--soul-cyan) / 0.4);
   }
 
   /* 8-BIT ANIMATIONS */
@@ -361,13 +427,13 @@
     50% { transform: translateY(-8px); }
   }
 
-  @keyframes neon-pulse {
+  @keyframes soft-pulse {
     0%, 100% { 
-      box-shadow: 0 0 10px currentColor;
+      box-shadow: 0 0 8px currentColor;
       opacity: 1;
     }
     50% { 
-      box-shadow: 0 0 25px currentColor;
+      box-shadow: 0 0 18px currentColor;
       opacity: 0.9;
     }
   }
@@ -380,8 +446,8 @@
     animation: pixel-bounce 0.5s steps(4) infinite;
   }
 
-  .neon-pulse {
-    animation: neon-pulse 2s ease-in-out infinite;
+  .soft-pulse {
+    animation: soft-pulse 2s ease-in-out infinite;
   }
 
   /* Scanline effect for CRT feel */
@@ -393,39 +459,39 @@
       0deg,
       transparent,
       transparent 2px,
-      hsl(var(--neon-black) / 0.15) 2px,
-      hsl(var(--neon-black) / 0.15) 4px
+      hsl(var(--soul-black) / 0.12) 2px,
+      hsl(var(--soul-black) / 0.12) 4px
     );
     pointer-events: none;
   }
 
-  /* Neon text glow */
-  .neon-text-cyan {
-    color: hsl(var(--neon-cyan));
+  /* Soft text glow */
+  .text-glow-cyan {
+    color: hsl(var(--soul-cyan));
     text-shadow: 
-      0 0 5px hsl(var(--neon-cyan)),
-      0 0 10px hsl(var(--neon-cyan) / 0.5);
+      0 0 4px hsl(var(--soul-cyan)),
+      0 0 8px hsl(var(--soul-cyan) / 0.4);
   }
 
-  .neon-text-magenta {
-    color: hsl(var(--neon-magenta));
+  .text-glow-magenta {
+    color: hsl(var(--soul-magenta));
     text-shadow: 
-      0 0 5px hsl(var(--neon-magenta)),
-      0 0 10px hsl(var(--neon-magenta) / 0.5);
+      0 0 4px hsl(var(--soul-magenta)),
+      0 0 8px hsl(var(--soul-magenta) / 0.4);
   }
 
-  .neon-text-green {
-    color: hsl(var(--neon-green));
+  .text-glow-green {
+    color: hsl(var(--soul-green));
     text-shadow: 
-      0 0 5px hsl(var(--neon-green)),
-      0 0 10px hsl(var(--neon-green) / 0.5);
+      0 0 4px hsl(var(--soul-green)),
+      0 0 8px hsl(var(--soul-green) / 0.4);
   }
 
-  .neon-text-yellow {
-    color: hsl(var(--neon-yellow));
+  .text-glow-amber {
+    color: hsl(var(--soul-amber));
     text-shadow: 
-      0 0 5px hsl(var(--neon-yellow)),
-      0 0 10px hsl(var(--neon-yellow) / 0.5);
+      0 0 4px hsl(var(--soul-amber)),
+      0 0 8px hsl(var(--soul-amber) / 0.4);
   }
 }
 
@@ -436,7 +502,7 @@
 
   /* Text shadow for 8-bit depth */
   .pixel-shadow {
-    text-shadow: 2px 2px 0 hsl(var(--neon-black));
+    text-shadow: 2px 2px 0 hsl(var(--soul-black));
   }
 
   /* Disable smooth rendering for true pixel look */

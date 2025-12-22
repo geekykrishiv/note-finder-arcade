@@ -6,3 +6,4 @@ export { PlayButton } from './PlayButton';
 export { GameStats } from './GameStats';
 export { ParallaxBackground } from './ParallaxBackground';
 export { LoadingScreen } from './LoadingScreen';
+export { DifficultySelector } from './DifficultySelector';

@@ -2,9 +2,18 @@ import { useState, useCallback } from 'react';
 import { NOTE_NAMES, NoteName } from './useAudio';
 
 export type GameStage = 'listen' | 'guess' | 'result';
+export type Difficulty = 'easy' | 'medium' | 'hard';
+
+// Difficulty settings with octave ranges
+const DIFFICULTY_SETTINGS = {
+  easy: { minOctave: 3, maxOctave: 5 },
+  medium: { minOctave: 2, maxOctave: 6 },
+  hard: { minOctave: 0, maxOctave: 7 },
+} as const;
 
 interface TrainingState {
   stage: GameStage;
+  difficulty: Difficulty;
   targetNote: NoteName | null;
   targetOctave: number | null;
   selectedNote: NoteName | null;
@@ -23,22 +32,20 @@ interface UseTrainingSessionReturn {
   submitGuess: () => boolean;
   nextRound: () => void;
   resetSession: () => void;
+  setDifficulty: (difficulty: Difficulty) => void;
   canSubmit: boolean;
   canReplay: boolean;
   minOctave: number;
   maxOctave: number;
 }
 
-// Default octave range: 2-6 (expandable later)
-const MIN_OCTAVE = 2;
-const MAX_OCTAVE = 6;
-
-// Generate a random note within the octave range
-function generateRandomNote(): { note: NoteName; octave: number } {
+// Generate a random note within the octave range for the given difficulty
+function generateRandomNote(difficulty: Difficulty): { note: NoteName; octave: number } {
+  const { minOctave, maxOctave } = DIFFICULTY_SETTINGS[difficulty];
   const noteIndex = Math.floor(Math.random() * NOTE_NAMES.length);
   // Random octave between MIN and MAX (inclusive)
-  const octaveRange = MAX_OCTAVE - MIN_OCTAVE + 1;
-  const octave = Math.floor(Math.random() * octaveRange) + MIN_OCTAVE;
+  const octaveRange = maxOctave - minOctave + 1;
+  const octave = Math.floor(Math.random() * octaveRange) + minOctave;
   return {
     note: NOTE_NAMES[noteIndex],
     octave,
@@ -47,6 +54,7 @@ function generateRandomNote(): { note: NoteName; octave: number } {
 
 const initialState: TrainingState = {
   stage: 'listen',
+  difficulty: 'medium',
   targetNote: null,
   targetOctave: null,
   selectedNote: null,
@@ -61,7 +69,7 @@ export function useTrainingSession(): UseTrainingSessionReturn {
   const [state, setState] = useState<TrainingState>(initialState);
 
   const startRound = useCallback(() => {
-    const { note, octave } = generateRandomNote();
+    const { note, octave } = generateRandomNote(state.difficulty);
     setState(prev => ({
       ...prev,
       stage: 'guess',
@@ -73,7 +81,7 @@ export function useTrainingSession(): UseTrainingSessionReturn {
       attempts: prev.attempts,
     }));
     return { note, octave };
-  }, []);
+  }, [state.difficulty]);
 
   const selectNote = useCallback((note: NoteName) => {
     setState(prev => ({
@@ -122,8 +130,19 @@ export function useTrainingSession(): UseTrainingSessionReturn {
     setState(initialState);
   }, []);
 
+  const setDifficulty = useCallback((difficulty: Difficulty) => {
+    setState(prev => ({
+      ...prev,
+      difficulty,
+      // Reset selection when difficulty changes
+      selectedOctave: null,
+    }));
+  }, []);
+
   const canSubmit = state.selectedNote !== null && state.selectedOctave !== null && state.stage === 'guess';
   const canReplay = state.stage === 'guess' && state.targetNote !== null;
+  
+  const { minOctave, maxOctave } = DIFFICULTY_SETTINGS[state.difficulty];
 
   return {
     state,
@@ -133,9 +152,10 @@ export function useTrainingSession(): UseTrainingSessionReturn {
     submitGuess,
     nextRound,
     resetSession,
+    setDifficulty,
     canSubmit,
     canReplay,
-    minOctave: MIN_OCTAVE,
-    maxOctave: MAX_OCTAVE,
+    minOctave,
+    maxOctave,
   };
 }
