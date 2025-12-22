@@ -33,6 +33,7 @@ export function useAudio(): UseAudioReturn {
   const audioContextRef = useRef<AudioContext | null>(null);
   const activeSourceRef = useRef<AudioBufferSourceNode | null>(null);
   const activeGainRef = useRef<GainNode | null>(null);
+  const activeNoteKeyRef = useRef<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
 
@@ -161,36 +162,37 @@ export function useAudio(): UseAudioReturn {
   }, [loadZipSamples, getAudioContext, decodeSample]);
 
   const stopNote = useCallback(() => {
-    if (activeGainRef.current && activeSourceRef.current) {
-      const ctx = audioContextRef.current;
-      if (ctx) {
-        const now = ctx.currentTime;
-        try {
-          activeGainRef.current.gain.cancelScheduledValues(now);
-          activeGainRef.current.gain.setValueAtTime(activeGainRef.current.gain.value, now);
-          activeGainRef.current.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-        } catch (e) {
-          // Ignore if already stopped
-        }
-      }
-    }
-    
-    setTimeout(() => {
-      if (activeSourceRef.current) {
-        try {
-          activeSourceRef.current.stop();
-        } catch (e) {
-          // Ignore if already stopped
-        }
-        activeSourceRef.current = null;
-      }
+    const ctx = audioContextRef.current;
+    const source = activeSourceRef.current;
+    const gainNode = activeGainRef.current;
+
+    if (!ctx || !source || !gainNode) return;
+
+    const now = ctx.currentTime;
+
+    try {
+      // Ultra-short fade to avoid clicks/pops (but not truncating normal sustain)
+      gainNode.gain.cancelScheduledValues(now);
+      gainNode.gain.setValueAtTime(gainNode.gain.value, now);
+      gainNode.gain.linearRampToValueAtTime(0.0001, now + 0.015);
+      source.stop(now + 0.02);
+    } catch (e) {
+      // Ignore if already stopped
+    } finally {
+      activeSourceRef.current = null;
       activeGainRef.current = null;
-    }, 60);
+      activeNoteKeyRef.current = null;
+    }
   }, []);
 
   const playNote = useCallback(async (note: NoteName, octave: number, duration: number = 4.0) => {
-    // Stop any currently playing note
-    stopNote();
+    const noteKey = `${note}${octave}`;
+
+    // Only interrupt audio when the user is effectively "replaying" the same note.
+    // Playing a different note should NOT cut off the prior one.
+    if (activeSourceRef.current && activeNoteKeyRef.current === noteKey) {
+      stopNote();
+    }
 
     const ctx = getAudioContext();
     const buffer = await decodeSample(note, octave);
@@ -204,29 +206,31 @@ export function useAudio(): UseAudioReturn {
     const source = ctx.createBufferSource();
     source.buffer = buffer;
 
-    // Create gain node for natural envelope
+    // Gain node for headroom + click-free stop (we do NOT fade early)
     const gainNode = ctx.createGain();
     const now = ctx.currentTime;
 
-    // Natural piano envelope:
-    // - Full volume for first 3.5 seconds (let pitch lock in)
-    // - Gentle fade from 3.5s to 4s (natural decay feel)
-    // - No abrupt cutoff
+    // Let the recorded sample's natural decay do the work.
+    // We only do a tiny fade in the last ~20ms to prevent a stop click.
+    const targetDuration = Math.max(0.1, duration);
+    const fadeOutStart = now + Math.max(0, targetDuration - 0.02);
+
     gainNode.gain.setValueAtTime(0.9, now);
-    gainNode.gain.setValueAtTime(0.9, now + 3.5); // Hold full volume
-    gainNode.gain.exponentialRampToValueAtTime(0.001, now + duration); // Gentle fade
+    gainNode.gain.setValueAtTime(0.9, fadeOutStart);
+    gainNode.gain.linearRampToValueAtTime(0.0001, now + targetDuration);
 
     // Connect nodes
     source.connect(gainNode);
     gainNode.connect(ctx.destination);
 
-    // Store references
+    // Track latest note (used to detect replay)
     activeSourceRef.current = source;
     activeGainRef.current = gainNode;
+    activeNoteKeyRef.current = noteKey;
 
-    // Start playing - let it ring for full duration plus a tiny buffer for fade
     source.start(now);
-    source.stop(now + duration + 0.2);
+    // Schedule stop at exactly currentTime + duration (requested)
+    source.stop(now + targetDuration);
   }, [getAudioContext, decodeSample, stopNote]);
 
   return {
