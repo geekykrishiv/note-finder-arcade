@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useAudio } from '@/hooks/useAudio';
 import { useTrainingSession } from '@/hooks/useTrainingSession';
 import {
@@ -15,7 +15,7 @@ import {
 import { cn } from '@/lib/utils';
 
 const Index = () => {
-  const { playNote, isSupported, isLoading, loadProgress } = useAudio();
+  const { playNote, isSupported, isLoading, loadProgress, isPlaying, playbackProgress } = useAudio();
   const {
     state,
     startRound,
@@ -30,20 +30,14 @@ const Index = () => {
     maxOctave,
   } = useTrainingSession();
 
-  const [isPlaying, setIsPlaying] = useState(false);
-
   const handlePlayNote = useCallback(() => {
     if (state.stage === 'listen') {
       // Start a new round
       const { note, octave } = startRound();
-      setIsPlaying(true);
       playNote(note, octave);
-      setTimeout(() => setIsPlaying(false), 2000);
     } else if (canReplay && state.targetNote && state.targetOctave) {
       // Replay the current note
-      setIsPlaying(true);
       playNote(state.targetNote, state.targetOctave);
-      setTimeout(() => setIsPlaying(false), 2000);
     }
   }, [state.stage, state.targetNote, state.targetOctave, canReplay, startRound, playNote]);
 
@@ -124,13 +118,14 @@ const Index = () => {
               {/* Play/Replay Button */}
               <div className="flex justify-center">
                 {state.stage === 'listen' && (
-                  <PlayButton onClick={handlePlayNote} isPlaying={isPlaying} />
+                  <PlayButton onClick={handlePlayNote} isPlaying={isPlaying} playbackProgress={playbackProgress} />
                 )}
                 {state.stage === 'guess' && (
                   <PlayButton
                     onClick={handlePlayNote}
                     isReplay
                     isPlaying={isPlaying}
+                    playbackProgress={playbackProgress}
                     disabled={!canReplay}
                   />
                 )}

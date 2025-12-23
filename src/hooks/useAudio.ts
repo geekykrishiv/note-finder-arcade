@@ -18,6 +18,8 @@ interface UseAudioReturn {
   isSupported: boolean;
   isLoading: boolean;
   loadProgress: number;
+  isPlaying: boolean;
+  playbackProgress: number; // 0-100, how much of the note duration has elapsed
 }
 
 // Cache for loaded audio buffers
@@ -34,8 +36,13 @@ export function useAudio(): UseAudioReturn {
   const activeSourceRef = useRef<AudioBufferSourceNode | null>(null);
   const activeGainRef = useRef<GainNode | null>(null);
   const activeNoteKeyRef = useRef<string | null>(null);
+  const playbackTimerRef = useRef<number | null>(null);
+  const playbackStartRef = useRef<number>(0);
+  const playbackDurationRef = useRef<number>(4000);
   const [isLoading, setIsLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackProgress, setPlaybackProgress] = useState(0);
 
   const getAudioContext = useCallback(() => {
     if (!audioContextRef.current) {
@@ -161,10 +168,44 @@ export function useAudio(): UseAudioReturn {
     })();
   }, [loadZipSamples, getAudioContext, decodeSample]);
 
+  const clearPlaybackTimer = useCallback(() => {
+    if (playbackTimerRef.current) {
+      cancelAnimationFrame(playbackTimerRef.current);
+      playbackTimerRef.current = null;
+    }
+    setIsPlaying(false);
+    setPlaybackProgress(0);
+  }, []);
+
+  const startPlaybackTimer = useCallback((durationMs: number) => {
+    clearPlaybackTimer();
+    playbackStartRef.current = performance.now();
+    playbackDurationRef.current = durationMs;
+    setIsPlaying(true);
+    setPlaybackProgress(0);
+
+    const updateProgress = () => {
+      const elapsed = performance.now() - playbackStartRef.current;
+      const progress = Math.min(100, (elapsed / playbackDurationRef.current) * 100);
+      setPlaybackProgress(progress);
+
+      if (progress < 100) {
+        playbackTimerRef.current = requestAnimationFrame(updateProgress);
+      } else {
+        setIsPlaying(false);
+        setPlaybackProgress(0);
+      }
+    };
+
+    playbackTimerRef.current = requestAnimationFrame(updateProgress);
+  }, [clearPlaybackTimer]);
+
   const stopNote = useCallback(() => {
     const ctx = audioContextRef.current;
     const source = activeSourceRef.current;
     const gainNode = activeGainRef.current;
+
+    clearPlaybackTimer();
 
     if (!ctx || !source || !gainNode) return;
 
@@ -183,7 +224,7 @@ export function useAudio(): UseAudioReturn {
       activeGainRef.current = null;
       activeNoteKeyRef.current = null;
     }
-  }, []);
+  }, [clearPlaybackTimer]);
 
   const playNote = useCallback(async (note: NoteName, octave: number, duration: number = 4.0) => {
     const noteKey = `${note}${octave}`;
@@ -231,7 +272,10 @@ export function useAudio(): UseAudioReturn {
     source.start(now);
     // Schedule stop at exactly currentTime + duration (requested)
     source.stop(now + targetDuration);
-  }, [getAudioContext, decodeSample, stopNote]);
+
+    // Start playback progress timer (duration in ms)
+    startPlaybackTimer(targetDuration * 1000);
+  }, [getAudioContext, decodeSample, stopNote, startPlaybackTimer]);
 
   return {
     playNote,
@@ -239,6 +283,8 @@ export function useAudio(): UseAudioReturn {
     isSupported: typeof window !== 'undefined' && ('AudioContext' in window || 'webkitAudioContext' in window),
     isLoading,
     loadProgress,
+    isPlaying,
+    playbackProgress,
   };
 }
 
