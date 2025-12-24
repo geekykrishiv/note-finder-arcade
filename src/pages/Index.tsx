@@ -75,7 +75,12 @@ const Index = () => {
 
   return (
     <ParallaxBackground>
-      <div className="min-h-screen flex flex-col">
+      <div className={cn(
+        "min-h-screen flex flex-col",
+        state.difficulty === 'easy' && 'difficulty-theme-easy',
+        state.difficulty === 'medium' && 'difficulty-theme-medium',
+        state.difficulty === 'hard' && 'difficulty-theme-hard',
+      )}>
         {/* Header */}
         <header className="flex items-center justify-between p-3 sm:p-4">
           <div className="flex items-center gap-2 sm:gap-3">
@@ -114,7 +119,7 @@ const Index = () => {
             <StageIndicator currentStage={state.stage} />
 
             {/* Game Panel */}
-            <div className="pixel-panel p-4 sm:p-6 space-y-6 sm:space-y-8">
+            <div className="pixel-panel difficulty-panel-glow p-4 sm:p-6 space-y-6 sm:space-y-8">
               {/* Play/Replay Button */}
               <div className="flex justify-center">
                 {state.stage === 'listen' && (
@@ -132,7 +137,7 @@ const Index = () => {
                 {state.stage === 'result' && (
                   <button
                     onClick={handleNextRound}
-                    className="pixel-button-primary px-6 py-4 sm:px-8 sm:py-5 flex items-center gap-3"
+                    className="pixel-button difficulty-accent-bg difficulty-accent-border px-6 py-4 sm:px-8 sm:py-5 flex items-center gap-3 text-foreground"
                   >
                     <span className="text-[8px] sm:text-[10px] pixel-shadow">NEXT ROUND</span>
                     <span className="text-[10px] sm:text-xs">▶</span>
@@ -162,8 +167,8 @@ const Index = () => {
                       onClick={handleSubmit}
                       disabled={!canSubmit}
                       className={cn(
-                        'pixel-button-success px-8 py-4 sm:px-10 sm:py-5',
-                        'min-w-[160px] sm:min-w-[200px]',
+                        'pixel-button difficulty-accent-bg difficulty-accent-border px-8 py-4 sm:px-10 sm:py-5',
+                        'min-w-[160px] sm:min-w-[200px] text-foreground',
                         !canSubmit && 'opacity-40 cursor-not-allowed',
                       )}
                     >
@@ -188,7 +193,7 @@ const Index = () => {
               {state.stage === 'listen' && (
                 <div className="text-center">
                   <p className="text-[6px] sm:text-[8px] text-muted-foreground">
-                    PRESS <span className="text-primary">PLAY NOTE</span> TO BEGIN
+                    PRESS <span className="difficulty-accent-text">PLAY NOTE</span> TO BEGIN
                   </p>
                 </div>
               )}
@@ -199,7 +204,7 @@ const Index = () => {
         {/* Footer */}
         <footer className="p-3 sm:p-4 text-center">
           <p className="text-[6px] sm:text-[8px] text-muted-foreground">
-            SINGLE NOTE MODE • {state.difficulty.toUpperCase()} • OCTAVES {minOctave}-{maxOctave}
+            SINGLE NOTE MODE • <span className="difficulty-accent-text">{state.difficulty.toUpperCase()}</span> • OCTAVES {minOctave}-{maxOctave}
           </p>
         </footer>
       </div>

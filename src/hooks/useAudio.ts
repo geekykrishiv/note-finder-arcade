@@ -256,8 +256,8 @@ export function useAudio(): UseAudioReturn {
     const targetDuration = Math.max(0.1, duration);
     const fadeOutStart = now + Math.max(0, targetDuration - 0.02);
 
-    gainNode.gain.setValueAtTime(0.9, now);
-    gainNode.gain.setValueAtTime(0.9, fadeOutStart);
+    gainNode.gain.setValueAtTime(1.5, now);
+    gainNode.gain.setValueAtTime(1.5, fadeOutStart);
     gainNode.gain.linearRampToValueAtTime(0.0001, now + targetDuration);
 
     // Connect nodes

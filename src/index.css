@@ -510,4 +510,45 @@
     image-rendering: pixelated;
     -webkit-font-smoothing: none;
   }
+
+  /* Difficulty-based theme utilities */
+  .difficulty-theme-easy {
+    --active-difficulty: 145 55% 50%;
+    --active-difficulty-light: 145 55% 60%;
+    --active-difficulty-dark: 145 45% 35%;
+  }
+
+  .difficulty-theme-medium {
+    --active-difficulty: 35 75% 55%;
+    --active-difficulty-light: 35 75% 65%;
+    --active-difficulty-dark: 35 60% 35%;
+  }
+
+  .difficulty-theme-hard {
+    --active-difficulty: 0 65% 55%;
+    --active-difficulty-light: 0 65% 65%;
+    --active-difficulty-dark: 0 55% 35%;
+  }
+
+  .difficulty-accent-bg {
+    background: hsl(var(--active-difficulty));
+  }
+
+  .difficulty-accent-border {
+    border-color: hsl(var(--active-difficulty-dark));
+    border-top-color: hsl(var(--active-difficulty-light));
+    border-left-color: hsl(var(--active-difficulty-light));
+    border-bottom-color: hsl(var(--active-difficulty-dark));
+    border-right-color: hsl(var(--active-difficulty-dark));
+    box-shadow: 4px 4px 0 hsl(var(--soul-black)), 0 0 20px hsl(var(--active-difficulty) / 0.35);
+  }
+
+  .difficulty-accent-text {
+    color: hsl(var(--active-difficulty));
+    text-shadow: 0 0 4px hsl(var(--active-difficulty)), 0 0 8px hsl(var(--active-difficulty) / 0.4);
+  }
+
+  .difficulty-panel-glow {
+    box-shadow: 4px 4px 0 hsl(var(--soul-black)), 0 0 25px hsl(var(--active-difficulty) / 0.25), inset 0 0 60px hsl(var(--active-difficulty) / 0.08);
+  }
 }

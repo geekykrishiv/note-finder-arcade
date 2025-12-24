@@ -14,18 +14,18 @@ export function PlayButton({ onClick, isPlaying, isReplay, disabled, playbackPro
       onClick={onClick}
       disabled={disabled || isPlaying}
       className={cn(
-        'pixel-button-primary px-6 py-4 sm:px-8 sm:py-5',
+        'pixel-button difficulty-accent-bg difficulty-accent-border px-6 py-4 sm:px-8 sm:py-5',
         'flex items-center gap-3 sm:gap-4',
         'min-w-[180px] sm:min-w-[220px] justify-center',
-        'relative overflow-hidden',
+        'relative overflow-hidden text-foreground',
         (disabled || isPlaying) && 'cursor-not-allowed',
       )}
     >
       {/* Cooldown progress overlay */}
       {isPlaying && (
-        <div 
-          className="absolute inset-0 bg-primary/30 transition-none"
-          style={{ 
+        <div
+          className="absolute inset-0 bg-black/30 transition-none"
+          style={{
             width: `${100 - playbackProgress}%`,
             right: 0,
             left: 'auto',
