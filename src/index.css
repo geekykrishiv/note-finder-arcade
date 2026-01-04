@@ -270,29 +270,33 @@
       0 0 12px hsl(var(--soul-magenta) / 0.3);
   }
 
-  /* DIFFICULTY SELECTOR BUTTON */
-  .pixel-difficulty-button {
+  /* LEVEL SELECTOR BUTTON - Large arcade style */
+  .pixel-level-button {
     font-family: 'ArcadeClassic', 'Press Start 2P', monospace;
     background: hsl(var(--pixel-raised));
-    border: 3px solid hsl(var(--pixel-border));
+    border: 4px solid hsl(var(--pixel-border));
     border-top-color: hsl(var(--pixel-highlight));
     border-left-color: hsl(var(--pixel-highlight));
     border-bottom-color: hsl(var(--pixel-border-dark));
     border-right-color: hsl(var(--pixel-border-dark));
-    box-shadow: 3px 3px 0 hsl(var(--soul-black));
+    box-shadow: 4px 4px 0 hsl(var(--soul-black));
     transition: none;
   }
 
-  .pixel-difficulty-button:hover:not(:disabled) {
+  .pixel-level-button:hover:not(:disabled) {
     background: hsl(var(--pixel-surface));
+    box-shadow: 
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 15px hsl(var(--soul-cyan) / 0.2);
   }
 
-  .pixel-difficulty-button:active:not(:disabled) {
-    transform: translate(3px, 3px);
+  .pixel-level-button:active:not(:disabled) {
+    transform: translate(4px, 4px);
     box-shadow: none;
   }
 
-  .difficulty-easy-selected {
+  /* Level 1 - Green (Easy) */
+  .level-1-selected {
     background: hsl(var(--difficulty-easy));
     color: hsl(var(--soul-black));
     border-color: hsl(145 40% 30%);
@@ -301,11 +305,12 @@
     border-bottom-color: hsl(145 40% 25%);
     border-right-color: hsl(145 40% 25%);
     box-shadow: 
-      3px 3px 0 hsl(var(--soul-black)),
-      0 0 12px hsl(var(--difficulty-easy) / 0.3);
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 20px hsl(var(--difficulty-easy) / 0.4);
   }
 
-  .difficulty-medium-selected {
+  /* Level 2 - Amber (Medium) */
+  .level-2-selected {
     background: hsl(var(--difficulty-medium));
     color: hsl(var(--soul-black));
     border-color: hsl(35 60% 35%);
@@ -314,11 +319,12 @@
     border-bottom-color: hsl(35 60% 30%);
     border-right-color: hsl(35 60% 30%);
     box-shadow: 
-      3px 3px 0 hsl(var(--soul-black)),
-      0 0 12px hsl(var(--difficulty-medium) / 0.3);
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 20px hsl(var(--difficulty-medium) / 0.4);
   }
 
-  .difficulty-hard-selected {
+  /* Level 3 - Red (Hard) */
+  .level-3-selected {
     background: hsl(var(--difficulty-hard));
     color: hsl(var(--soul-white));
     border-color: hsl(0 55% 35%);
@@ -327,8 +333,46 @@
     border-bottom-color: hsl(0 55% 30%);
     border-right-color: hsl(0 55% 30%);
     box-shadow: 
-      3px 3px 0 hsl(var(--soul-black)),
-      0 0 12px hsl(var(--difficulty-hard) / 0.3);
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 20px hsl(var(--difficulty-hard) / 0.4);
+  }
+
+  /* MODE SELECTOR BUTTON */
+  .pixel-mode-button {
+    font-family: 'ArcadeClassic', 'Press Start 2P', monospace;
+    background: hsl(var(--pixel-raised));
+    border: 4px solid hsl(var(--pixel-border));
+    border-top-color: hsl(var(--pixel-highlight));
+    border-left-color: hsl(var(--pixel-highlight));
+    border-bottom-color: hsl(var(--pixel-border-dark));
+    border-right-color: hsl(var(--pixel-border-dark));
+    box-shadow: 4px 4px 0 hsl(var(--soul-black));
+    transition: none;
+  }
+
+  .pixel-mode-button:hover:not(:disabled) {
+    background: hsl(var(--pixel-surface));
+    box-shadow: 
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 15px hsl(var(--soul-magenta) / 0.2);
+  }
+
+  .pixel-mode-button:active:not(:disabled) {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+  }
+
+  .pixel-mode-button-selected {
+    background: hsl(var(--soul-cyan));
+    color: hsl(var(--soul-black));
+    border-color: hsl(185 50% 35%);
+    border-top-color: hsl(185 65% 70%);
+    border-left-color: hsl(185 65% 70%);
+    border-bottom-color: hsl(185 50% 30%);
+    border-right-color: hsl(185 50% 30%);
+    box-shadow: 
+      4px 4px 0 hsl(var(--soul-black)),
+      0 0 20px hsl(var(--soul-cyan) / 0.4);
   }
 
   /* STAGE INDICATOR */
