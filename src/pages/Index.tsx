@@ -1,6 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useAudio } from '@/hooks/useAudio';
 import { useTrainingSession } from '@/hooks/useTrainingSession';
+import { useIntervalMode } from '@/hooks/useIntervalMode';
 import {
   StageIndicator,
   NoteSelector,
@@ -10,44 +11,68 @@ import {
   GameStats,
   ParallaxBackground,
   LoadingScreen,
-  DifficultySelector,
+  LevelSelector,
+  ModeSelector,
+  IntervalSelector,
+  IntervalFeedback,
 } from '@/components/game';
+import { GameMode } from '@/components/game/ModeSelector';
 import { cn } from '@/lib/utils';
 
 const Index = () => {
   const { playNote, isSupported, isLoading, loadProgress, isPlaying, playbackProgress } = useAudio();
-  const {
-    state,
-    startRound,
-    selectNote,
-    selectOctave,
-    submitGuess,
-    nextRound,
-    setDifficulty,
-    canSubmit,
-    canReplay,
-    minOctave,
-    maxOctave,
-  } = useTrainingSession();
+  const [gameMode, setGameMode] = useState<GameMode>('single-note');
+  
+  // Single Note Mode
+  const singleNote = useTrainingSession();
+  
+  // Interval Mode
+  const interval = useIntervalMode();
 
-  const handlePlayNote = useCallback(() => {
-    if (state.stage === 'listen') {
-      // Start a new round
-      const { note, octave } = startRound();
-      playNote(note, octave);
-    } else if (canReplay && state.targetNote && state.targetOctave) {
-      // Replay the current note
-      playNote(state.targetNote, state.targetOctave);
+  // Get current mode's state for theming
+  const currentDifficulty = gameMode === 'single-note' ? singleNote.state.difficulty : interval.state.difficulty;
+  const currentStage = gameMode === 'single-note' ? singleNote.state.stage : interval.state.stage;
+  const totalRounds = gameMode === 'single-note' ? singleNote.state.totalRounds : interval.state.totalRounds;
+  const correctRounds = gameMode === 'single-note' ? singleNote.state.correctRounds : interval.state.correctRounds;
+  const minOctave = gameMode === 'single-note' ? singleNote.minOctave : interval.minOctave;
+  const maxOctave = gameMode === 'single-note' ? singleNote.maxOctave : interval.maxOctave;
+
+  // Handle mode change - reset both modes
+  const handleModeChange = useCallback((mode: GameMode) => {
+    if (mode !== gameMode) {
+      singleNote.resetSession();
+      interval.resetSession();
+      setGameMode(mode);
     }
-  }, [state.stage, state.targetNote, state.targetOctave, canReplay, startRound, playNote]);
+  }, [gameMode, singleNote, interval]);
 
-  const handleSubmit = useCallback(() => {
-    submitGuess();
-  }, [submitGuess]);
+  // Single Note handlers
+  const handlePlayNoteSingle = useCallback(() => {
+    if (singleNote.state.stage === 'listen') {
+      const { note, octave } = singleNote.startRound();
+      playNote(note, octave);
+    } else if (singleNote.canReplay && singleNote.state.targetNote && singleNote.state.targetOctave) {
+      playNote(singleNote.state.targetNote, singleNote.state.targetOctave);
+    }
+  }, [singleNote, playNote]);
 
-  const handleNextRound = useCallback(() => {
-    nextRound();
-  }, [nextRound]);
+  // Interval Mode handlers - play two notes with gap
+  const handlePlayInterval = useCallback(() => {
+    if (interval.state.stage === 'listen') {
+      const { firstNote, secondNote, octave } = interval.startRound();
+      // Play first note
+      playNote(firstNote, octave);
+      // Play second note after 400ms gap
+      setTimeout(() => {
+        playNote(secondNote, octave);
+      }, 400);
+    } else if (interval.canReplay && interval.state.firstNote && interval.state.secondNote && interval.state.octave) {
+      playNote(interval.state.firstNote, interval.state.octave);
+      setTimeout(() => {
+        playNote(interval.state.secondNote!, interval.state.octave!);
+      }, 400);
+    }
+  }, [interval, playNote]);
 
   // Show loading screen while samples load
   if (isLoading) {
@@ -77,9 +102,9 @@ const Index = () => {
     <ParallaxBackground>
       <div className={cn(
         "min-h-screen flex flex-col",
-        state.difficulty === 'easy' && 'difficulty-theme-easy',
-        state.difficulty === 'medium' && 'difficulty-theme-medium',
-        state.difficulty === 'hard' && 'difficulty-theme-hard',
+        currentDifficulty === 'easy' && 'difficulty-theme-easy',
+        currentDifficulty === 'medium' && 'difficulty-theme-medium',
+        currentDifficulty === 'hard' && 'difficulty-theme-hard',
       )}>
         {/* Header */}
         <header className="flex items-center justify-between p-3 sm:p-4">
@@ -98,17 +123,26 @@ const Index = () => {
             </h1>
           </div>
           <GameStats
-            totalRounds={state.totalRounds}
-            correctRounds={state.correctRounds}
+            totalRounds={totalRounds}
+            correctRounds={correctRounds}
           />
         </header>
 
-        {/* Difficulty Selector - Always visible */}
-        <div className="flex justify-center px-3 sm:px-4 pb-2">
-          <DifficultySelector
-            difficulty={state.difficulty}
-            onSelectDifficulty={setDifficulty}
-            disabled={state.stage !== 'listen'}
+        {/* Mode Selector */}
+        <div className="flex justify-center px-3 sm:px-4 pb-3">
+          <ModeSelector
+            mode={gameMode}
+            onSelectMode={handleModeChange}
+            disabled={currentStage !== 'listen'}
+          />
+        </div>
+
+        {/* Level Selector - Always visible */}
+        <div className="flex justify-center px-3 sm:px-4 pb-3">
+          <LevelSelector
+            level={currentDifficulty}
+            onSelectLevel={gameMode === 'single-note' ? singleNote.setDifficulty : interval.setDifficulty}
+            disabled={currentStage !== 'listen'}
           />
         </div>
 
@@ -116,86 +150,174 @@ const Index = () => {
         <main className="flex-1 flex items-center justify-center p-3 sm:p-4">
           <div className="w-full max-w-md space-y-6 sm:space-y-8">
             {/* Stage Indicator */}
-            <StageIndicator currentStage={state.stage} />
+            <StageIndicator currentStage={currentStage} />
 
             {/* Game Panel */}
             <div className="pixel-panel difficulty-panel-glow p-4 sm:p-6 space-y-6 sm:space-y-8">
-              {/* Play/Replay Button */}
-              <div className="flex justify-center">
-                {state.stage === 'listen' && (
-                  <PlayButton onClick={handlePlayNote} isPlaying={isPlaying} playbackProgress={playbackProgress} />
-                )}
-                {state.stage === 'guess' && (
-                  <PlayButton
-                    onClick={handlePlayNote}
-                    isReplay
-                    isPlaying={isPlaying}
-                    playbackProgress={playbackProgress}
-                    disabled={!canReplay}
-                  />
-                )}
-                {state.stage === 'result' && (
-                  <button
-                    onClick={handleNextRound}
-                    className="pixel-button difficulty-accent-bg difficulty-accent-border px-6 py-4 sm:px-8 sm:py-5 flex items-center gap-3 text-foreground"
-                  >
-                    <span className="text-[8px] sm:text-[10px] pixel-shadow">NEXT ROUND</span>
-                    <span className="text-[10px] sm:text-xs">▶</span>
-                  </button>
-                )}
-              </div>
-
-              {/* Input Area - Only show during guess stage */}
-              {state.stage === 'guess' && (
-                <div className="space-y-5 sm:space-y-6">
-                  <NoteSelector
-                    selectedNote={state.selectedNote}
-                    onSelectNote={selectNote}
-                    disabled={isPlaying}
-                  />
-                  <OctaveSelector
-                    selectedOctave={state.selectedOctave}
-                    onSelectOctave={selectOctave}
-                    disabled={isPlaying}
-                    minOctave={minOctave}
-                    maxOctave={maxOctave}
-                  />
-                  
-                  {/* Submit Button */}
-                  <div className="flex justify-center pt-2 sm:pt-4">
-                    <button
-                      onClick={handleSubmit}
-                      disabled={!canSubmit}
-                      className={cn(
-                        'pixel-button difficulty-accent-bg difficulty-accent-border px-8 py-4 sm:px-10 sm:py-5',
-                        'min-w-[160px] sm:min-w-[200px] text-foreground',
-                        !canSubmit && 'opacity-40 cursor-not-allowed',
-                      )}
-                    >
-                      <span className="text-[8px] sm:text-[10px] pixel-shadow">CHECK</span>
-                    </button>
+              
+              {/* ========== SINGLE NOTE MODE ========== */}
+              {gameMode === 'single-note' && (
+                <>
+                  {/* Play/Replay Button */}
+                  <div className="flex justify-center">
+                    {singleNote.state.stage === 'listen' && (
+                      <PlayButton onClick={handlePlayNoteSingle} isPlaying={isPlaying} playbackProgress={playbackProgress} />
+                    )}
+                    {singleNote.state.stage === 'guess' && (
+                      <PlayButton
+                        onClick={handlePlayNoteSingle}
+                        isReplay
+                        isPlaying={isPlaying}
+                        playbackProgress={playbackProgress}
+                        disabled={!singleNote.canReplay}
+                      />
+                    )}
+                    {singleNote.state.stage === 'result' && (
+                      <button
+                        onClick={singleNote.nextRound}
+                        className="pixel-button difficulty-accent-bg difficulty-accent-border px-6 py-4 sm:px-8 sm:py-5 flex items-center gap-3 text-foreground"
+                      >
+                        <span className="text-[8px] sm:text-[10px] pixel-shadow">NEXT ROUND</span>
+                        <span className="text-[10px] sm:text-xs">▶</span>
+                      </button>
+                    )}
                   </div>
-                </div>
+
+                  {/* Input Area */}
+                  {singleNote.state.stage === 'guess' && (
+                    <div className="space-y-5 sm:space-y-6">
+                      <NoteSelector
+                        selectedNote={singleNote.state.selectedNote}
+                        onSelectNote={singleNote.selectNote}
+                        disabled={isPlaying}
+                      />
+                      <OctaveSelector
+                        selectedOctave={singleNote.state.selectedOctave}
+                        onSelectOctave={singleNote.selectOctave}
+                        disabled={isPlaying}
+                        minOctave={singleNote.minOctave}
+                        maxOctave={singleNote.maxOctave}
+                      />
+                      
+                      {/* Submit Button */}
+                      <div className="flex justify-center pt-2 sm:pt-4">
+                        <button
+                          onClick={singleNote.submitGuess}
+                          disabled={!singleNote.canSubmit}
+                          className={cn(
+                            'pixel-button difficulty-accent-bg difficulty-accent-border px-8 py-4 sm:px-10 sm:py-5',
+                            'min-w-[160px] sm:min-w-[200px] text-foreground',
+                            !singleNote.canSubmit && 'opacity-40 cursor-not-allowed',
+                          )}
+                        >
+                          <span className="text-[8px] sm:text-[10px] pixel-shadow">CHECK</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Feedback */}
+                  {singleNote.state.stage === 'result' && (
+                    <FeedbackDisplay
+                      isCorrect={singleNote.state.isCorrect}
+                      targetNote={singleNote.state.targetNote}
+                      targetOctave={singleNote.state.targetOctave}
+                      selectedNote={singleNote.state.selectedNote}
+                      selectedOctave={singleNote.state.selectedOctave}
+                    />
+                  )}
+
+                  {/* Listen Stage Instructions */}
+                  {singleNote.state.stage === 'listen' && (
+                    <div className="text-center">
+                      <p className="text-[6px] sm:text-[8px] text-muted-foreground">
+                        PRESS <span className="difficulty-accent-text">PLAY NOTE</span> TO BEGIN
+                      </p>
+                    </div>
+                  )}
+                </>
               )}
 
-              {/* Feedback Area */}
-              {state.stage === 'result' && (
-                <FeedbackDisplay
-                  isCorrect={state.isCorrect}
-                  targetNote={state.targetNote}
-                  targetOctave={state.targetOctave}
-                  selectedNote={state.selectedNote}
-                  selectedOctave={state.selectedOctave}
-                />
-              )}
+              {/* ========== INTERVAL MODE ========== */}
+              {gameMode === 'interval' && (
+                <>
+                  {/* Play/Replay Button */}
+                  <div className="flex justify-center">
+                    {interval.state.stage === 'listen' && (
+                      <PlayButton 
+                        onClick={handlePlayInterval} 
+                        isPlaying={isPlaying} 
+                        playbackProgress={playbackProgress}
+                        label="PLAY INTERVAL"
+                      />
+                    )}
+                    {interval.state.stage === 'guess' && (
+                      <PlayButton
+                        onClick={handlePlayInterval}
+                        isReplay
+                        isPlaying={isPlaying}
+                        playbackProgress={playbackProgress}
+                        disabled={!interval.canReplay}
+                      />
+                    )}
+                    {interval.state.stage === 'result' && (
+                      <button
+                        onClick={interval.nextRound}
+                        className="pixel-button difficulty-accent-bg difficulty-accent-border px-6 py-4 sm:px-8 sm:py-5 flex items-center gap-3 text-foreground"
+                      >
+                        <span className="text-[8px] sm:text-[10px] pixel-shadow">NEXT ROUND</span>
+                        <span className="text-[10px] sm:text-xs">▶</span>
+                      </button>
+                    )}
+                  </div>
 
-              {/* Listen Stage Instructions */}
-              {state.stage === 'listen' && (
-                <div className="text-center">
-                  <p className="text-[6px] sm:text-[8px] text-muted-foreground">
-                    PRESS <span className="difficulty-accent-text">PLAY NOTE</span> TO BEGIN
-                  </p>
-                </div>
+                  {/* Input Area */}
+                  {interval.state.stage === 'guess' && (
+                    <div className="space-y-5 sm:space-y-6">
+                      <IntervalSelector
+                        selectedInterval={interval.state.selectedInterval}
+                        onSelectInterval={interval.selectInterval}
+                        disabled={isPlaying}
+                      />
+                      
+                      {/* Submit Button */}
+                      <div className="flex justify-center pt-2 sm:pt-4">
+                        <button
+                          onClick={interval.submitGuess}
+                          disabled={!interval.canSubmit}
+                          className={cn(
+                            'pixel-button difficulty-accent-bg difficulty-accent-border px-8 py-4 sm:px-10 sm:py-5',
+                            'min-w-[160px] sm:min-w-[200px] text-foreground',
+                            !interval.canSubmit && 'opacity-40 cursor-not-allowed',
+                          )}
+                        >
+                          <span className="text-[8px] sm:text-[10px] pixel-shadow">CHECK</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Feedback */}
+                  {interval.state.stage === 'result' && (
+                    <IntervalFeedback
+                      isCorrect={interval.state.isCorrect}
+                      targetInterval={interval.state.targetInterval}
+                      selectedInterval={interval.state.selectedInterval}
+                      firstNote={interval.state.firstNote}
+                      secondNote={interval.state.secondNote}
+                      octave={interval.state.octave}
+                    />
+                  )}
+
+                  {/* Listen Stage Instructions */}
+                  {interval.state.stage === 'listen' && (
+                    <div className="text-center">
+                      <p className="text-[6px] sm:text-[8px] text-muted-foreground">
+                        PRESS <span className="difficulty-accent-text">PLAY INTERVAL</span> TO HEAR TWO NOTES
+                      </p>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
@@ -204,7 +326,7 @@ const Index = () => {
         {/* Footer */}
         <footer className="p-3 sm:p-4 text-center">
           <p className="text-[6px] sm:text-[8px] text-muted-foreground">
-            SINGLE NOTE MODE • <span className="difficulty-accent-text">{state.difficulty.toUpperCase()}</span> • OCTAVES {minOctave}-{maxOctave}
+            {gameMode === 'single-note' ? 'SINGLE NOTE' : 'INTERVAL'} MODE • <span className="difficulty-accent-text">LEVEL {currentDifficulty === 'easy' ? '1' : currentDifficulty === 'medium' ? '2' : '3'}</span> • OCTAVES {minOctave}-{maxOctave}
           </p>
         </footer>
       </div>

@@ -6,9 +6,11 @@ interface PlayButtonProps {
   isReplay?: boolean;
   disabled?: boolean;
   playbackProgress?: number; // 0-100
+  label?: string; // Custom label for the button
 }
 
-export function PlayButton({ onClick, isPlaying, isReplay, disabled, playbackProgress = 0 }: PlayButtonProps) {
+export function PlayButton({ onClick, isPlaying, isReplay, disabled, playbackProgress = 0, label }: PlayButtonProps) {
+  const buttonLabel = isPlaying ? 'PLAYING...' : isReplay ? 'REPLAY' : (label || 'PLAY NOTE');
   return (
     <button
       onClick={onClick}
@@ -58,7 +60,7 @@ export function PlayButton({ onClick, isPlaying, isReplay, disabled, playbackPro
           )}
         </svg>
         <span className="text-[8px] sm:text-[10px] pixel-shadow">
-          {isPlaying ? 'PLAYING...' : isReplay ? 'REPLAY' : 'PLAY NOTE'}
+          {buttonLabel}
         </span>
       </div>
     </button>

@@ -6,4 +6,7 @@ export { PlayButton } from './PlayButton';
 export { GameStats } from './GameStats';
 export { ParallaxBackground } from './ParallaxBackground';
 export { LoadingScreen } from './LoadingScreen';
-export { DifficultySelector } from './DifficultySelector';
+export { LevelSelector } from './LevelSelector';
+export { ModeSelector } from './ModeSelector';
+export { IntervalSelector } from './IntervalSelector';
+export { IntervalFeedback } from './IntervalFeedback';
